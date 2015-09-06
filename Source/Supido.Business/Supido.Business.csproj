@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7563A878-D123-473E-9800-9FB70A30DFC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Supido.Business</RootNamespace>
+    <AssemblyName>Supido.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.OpenAccess, Version=2015.1.225.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\Data Access\bin\Telerik.OpenAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.OpenAccess.35.Extensions, Version=2015.1.225.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\Data Access\bin\Telerik.OpenAccess.35.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.OpenAccess.Runtime, Version=2015.1.225.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\Data Access\bin\Telerik.OpenAccess.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\BOAttribute.cs" />
+    <Compile Include="Attributes\DtoAttribute.cs" />
+    <Compile Include="Attributes\DtoField.cs" />
+    <Compile Include="Attributes\FilterAttribute.cs" />
+    <Compile Include="Audit\AuditOperationType.cs" />
+    <Compile Include="Audit\IAuditManager.cs" />
+    <Compile Include="BO\BaseBO.cs" />
+    <Compile Include="BO\BOEventArgs.cs" />
+    <Compile Include="BO\BOManager.cs" />
+    <Compile Include="BO\ContextBO.cs" />
+    <Compile Include="BO\IBO.cs" />
+    <Compile Include="BO\IBOManager.cs" />
+    <Compile Include="BO\IContextEntityBO.cs" />
+    <Compile Include="BO\IEntityBO.cs" />
+    <Compile Include="Context\IUserContext.cs" />
+    <Compile Include="Context\UserContext.cs" />
+    <Compile Include="DTO\IUserDto.cs" />
+    <Compile Include="Filter\BaseBOFilter.cs" />
+    <Compile Include="Filter\BaseContextBOFilter.cs" />
+    <Compile Include="Filter\IBOFilter.cs" />
+    <Compile Include="Filter\UnsecureContextBOFilter.cs" />
+    <Compile Include="Meta\IMetamodelEntity.cs" />
+    <Compile Include="Meta\IMetamodelField.cs" />
+    <Compile Include="Meta\IMetamodelManager.cs" />
+    <Compile Include="Meta\MetamodelEntity.cs" />
+    <Compile Include="Meta\MetamodelField.cs" />
+    <Compile Include="Meta\MetamodelManager.cs" />
+    <Compile Include="Query\FacetInfo.cs" />
+    <Compile Include="Query\FacetOperation.cs" />
+    <Compile Include="Query\FacetValueInfo.cs" />
+    <Compile Include="Query\OrderInfo.cs" />
+    <Compile Include="Query\QueryInfo.cs" />
+    <Compile Include="Security\BaseSecurityManager.cs" />
+    <Compile Include="Security\ISecurityManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\SecurityScanner.cs" />
+    <Compile Include="Session\BaseSessionManager.cs" />
+    <Compile Include="DTO\ISessionDto.cs" />
+    <Compile Include="Session\ISessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Supido.Core\Supido.Core.csproj">
+      <Project>{48569113-1263-42eb-bebf-e5e295e5a89c}</Project>
+      <Name>Supido.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
