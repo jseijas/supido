@@ -157,30 +157,30 @@ For each entity you can define several DTOs, representing several ways of projec
 ### 3.6. Enjoy the model
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step06.png)
 ## 4. Create a project for the service
-### 4.1. Create the project
+* 4.1. Create the project
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step07.png)
-### 4.2. Add the references
-* Your model proyect
-* Supido.Core
-* Supido.Business
-* Supido.Service
-* Telerik.OpenAccess and extensions
-### 4.3. Create your DTOs. Put the [Dto] attribute in the Dto class. In the attribute you can specify the Entity type, otherwise it will be autoresolved following name rules.
+* 4.2. Add the references
+Your model proyect
+Supido.Core
+Supido.Business
+Supido.Service
+Telerik.OpenAccess and extensions
+* 4.3. Create your DTOs. Put the [Dto] attribute in the Dto class. In the attribute you can specify the Entity type, otherwise it will be autoresolved following name rules.
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step08.png)
-### 4.4. Modify the web.config
+* 4.4. Modify the web.config
 You have one example of web.config (CORS configured) in 
 https://raw.githubusercontent.com/jseijas/supido/master/Examples/Supido.Demo.Service/Web.config
-### 4.5. Add a Session Manager
+* 4.5. Add a Session Manager
 Here the session manager example:
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Security/SessionManager.cs
-### 4.6. Add a Security Manager
+* 4.6. Add a Security Manager
 Here the security manager example:
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Security/SecurityManager.cs
-### 4.7. Adds a Security Service
+* 4.7. Adds a Security Service
 In order to do the login/logout operations.
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Services/Security.svc.cs
-### 4.8. Define your API in Supido.xml file
-### 4.9. Modify Global.asax
+* 4.8. Define your API in Supido.xml file
+* 4.9. Modify Global.asax
 ```csharp
 protected void Application_Start(object sender, EventArgs e)
 {
