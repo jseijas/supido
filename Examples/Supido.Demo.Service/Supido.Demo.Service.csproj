@@ -73,9 +73,6 @@
     <Content Include="Supido.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Mappers.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Services\Security.svc" />
     <Content Include="Web.config" />
   </ItemGroup>

@@ -129,7 +129,7 @@ namespace Supido.Service.Configuration
                 Type securityManagerType = TypesManager.ResolveType(securityAttributes.AsString("securityManager"));
                 if (securityManagerType != null)
                 {
-                    string mappersName = securityAttributes.AsString("mapper", "Mappers.xml");
+                    string mappersName = securityAttributes.AsString("mapper");
                     securityManager = (ISecurityManager)Activator.CreateInstance(securityManagerType, mappersName);
                     IoC.Register<ISecurityManager>(securityManager);
                 }

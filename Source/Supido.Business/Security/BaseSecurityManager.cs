@@ -89,10 +89,7 @@ namespace Supido.Business.Security
             this.SessionManager = IoC.Get<ISessionManager>();
             this.BOManager = new BOManager();
             this.MetamodelManager = new MetamodelManager();
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                this.Configure(fileName);
-            }
+            this.Configure(fileName);
         }
 
         #endregion
@@ -181,10 +178,14 @@ namespace Supido.Business.Security
         {
             MetadataContainer metadata = this.GetOpenAccessMetadata();
             Dictionary<string, MetaPersistentType> metatables = this.GetMetaTables(metadata);
-            XmlDocument document = XmlResources.GetFromResource(fileName);
-            if (document == null)
+            XmlDocument document = null;
+            if (!string.IsNullOrEmpty(fileName))
             {
-                document = XmlResources.GetFromEmbeddedResource(fileName);
+                document = XmlResources.GetFromResource(fileName);
+                if (document == null)
+                {
+                    document = XmlResources.GetFromEmbeddedResource(fileName);
+                }
             }
             if (document != null)
             {
@@ -194,10 +195,21 @@ namespace Supido.Business.Security
                 {
                     this.ConfigureEntities(rootNode, metatables);
                 }
-                
             }
-            //this.AuditManager.Configure();
-
+            else
+            {
+                SecurityScanner scanner = new SecurityScanner(this);
+                scanner.EntityPreffix = string.Empty;
+                scanner.EntitySuffix = string.Empty;
+                scanner.DtoPreffix = string.Empty;
+                scanner.DtoSuffix = "Dto";
+                scanner.FilterPreffix = string.Empty;
+                scanner.FilterSuffix = "Filter";
+                scanner.BOPreffix = string.Empty;
+                scanner.BOSuffix = "BO";
+                scanner.Metatables = metatables;
+                scanner.ScanNamespace(string.Empty);
+            }
         }
 
         /// <summary>
