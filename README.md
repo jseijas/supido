@@ -1,5 +1,5 @@
 # supido
-##  WCF based framework to make REST APIs quickly
+## WCF based framework to make REST APIs quickly
 
 Imagine that you can make a REST API for your database as easy as design the API in a XML file, and without having to code the Business Objects or the services, only the DTOs, having it running in less than 5 minutes.
 
@@ -65,7 +65,7 @@ Supido is based (for now) in Telerik Data Access as the ORM to the model, so wha
 
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step06.png)
 
-##  Secured
+#  Secured
 
 Supido has an abstract security system, so you can implement your security. It's based on a **ISessionManager** to take care of the sessions and a **ISecurityManager** to take care of the login, logout.
 Every call to the API must receive a **sessionToken** in order to identify the session of the user and create a securized context to the user.
@@ -119,7 +119,7 @@ Also will add the order and bring only 50 records skiping 100 records (paginatio
 The names used in the facet are the DTO property names, and internally are translated to the entity expressions.
 
 
-## Extendable
+# Extendable
 
 You can modify the behaviour of your services in several ways, but there is an easy way: use filters.
 
@@ -135,52 +135,52 @@ The second one has no need of beeing overrided, it automatically resolves the qu
 
 The other option to change the service behaviour is to create your own Business Objects inheriting form **ContextBO** and overriding the operations that you need.
 
-## Relationship 1-n between Entity and DTO
+# Relationship 1-n between Entity and DTO
 
 For each entity you can define several DTOs, representing several ways of projecting the data in the front. This way, you will have a BO and Service for each DTO.
 
-## Starting guide
+# Starting guide
 
-### 1. Create your database
-### 2. Create a new solution
-### 3. Create a project for the model using Telerik
-#### 3.1. Create the project
+## 1. Create your database
+## 2. Create a new solution
+## 3. Create a project for the model using Telerik
+### 3.1. Create the project
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step01.png)
-#### 3.2. Choose your database backend
+### 3.2. Choose your database backend
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step02.png)
-#### 3.3. Choose your database connection
+### 3.3. Choose your database connection
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step03.png)
-#### 3.4. Select the tables to be used
+### 3.4. Select the tables to be used
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step04.png)
-#### 3.5. Select how you want the model code to be done
+### 3.5. Select how you want the model code to be done
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step05.png)
-#### 3.6. Enjoy the model
+### 3.6. Enjoy the model
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step06.png)
-### 4. Create a project for the service
-#### 4.1. Create the project
+## 4. Create a project for the service
+### 4.1. Create the project
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step07.png)
-#### 4.2. Add the references
+### 4.2. Add the references
 * Your model proyect
 * Supido.Core
 * Supido.Business
 * Supido.Service
 * Telerik.OpenAccess and extensions
-#### 4.3. Create your DTOs. Put the [Dto] attribute in the Dto class. In the attribute you can specify the Entity type, otherwise it will be autoresolved following name rules.
+### 4.3. Create your DTOs. Put the [Dto] attribute in the Dto class. In the attribute you can specify the Entity type, otherwise it will be autoresolved following name rules.
 ![](https://raw.githubusercontent.com/jseijas/supido/master/images/step08.png)
-#### 4.4. Modify the web.config
+### 4.4. Modify the web.config
 You have one example of web.config (CORS configured) in 
 https://raw.githubusercontent.com/jseijas/supido/master/Examples/Supido.Demo.Service/Web.config
-#### 4.5. Add a Session Manager
+### 4.5. Add a Session Manager
 Here the session manager example:
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Security/SessionManager.cs
-#### 4.6. Add a Security Manager
+### 4.6. Add a Security Manager
 Here the security manager example:
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Security/SecurityManager.cs
-#### 4.7. Adds a Security Service
+### 4.7. Adds a Security Service
 In order to do the login/logout operations.
 https://github.com/jseijas/supido/blob/master/Examples/Supido.Demo.Service/Services/Security.svc.cs
-#### 4.8. Define your API in Supido.xml file
-#### 4.9. Modify Global.asax
+### 4.8. Define your API in Supido.xml file
+### 4.9. Modify Global.asax
 ```csharp
 protected void Application_Start(object sender, EventArgs e)
 {
@@ -199,7 +199,4 @@ protected void Application_BeginRequest(object sender, EventArgs e)
 }
 ```
 
-### 5. Start the service!
-
-# supido
-WCF based framework to make REST APIs quickly
+## 5. Start the service!
