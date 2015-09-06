@@ -44,6 +44,8 @@ namespace Supido.Business.Meta
         /// <returns></returns>
         IMetamodelEntity GetEntityByName(string name);
 
+        IMetamodelEntity GetEntityByDtoName(string name);
+
         /// <summary>
         /// Registers the entity.
         /// </summary>

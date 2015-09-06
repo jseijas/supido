@@ -1,5 +1,4 @@
-﻿using Supido.Business.Audit;
-using Supido.Business.BO;
+﻿using Supido.Business.BO;
 using Supido.Business.Context;
 using Supido.Business.DTO;
 using Supido.Business.Meta;
@@ -38,14 +37,6 @@ namespace Supido.Business.Security
         /// The session manager.
         /// </value>
         public ISessionManager SessionManager { get; private set; }
-
-        /// <summary>
-        /// Gets the audit manager.
-        /// </summary>
-        /// <value>
-        /// The audit manager.
-        /// </value>
-        public IAuditManager AuditManager { get; private set; }
 
         /// <summary>
         /// Gets the business object manager.
@@ -96,7 +87,6 @@ namespace Supido.Business.Security
             ObjectProxyFactory.CreateMap(userDtoType, entityType);
 
             this.SessionManager = IoC.Get<ISessionManager>();
-            this.AuditManager = IoC.Get<IAuditManager>();
             this.BOManager = new BOManager();
             this.MetamodelManager = new MetamodelManager();
             if (!string.IsNullOrEmpty(fileName))

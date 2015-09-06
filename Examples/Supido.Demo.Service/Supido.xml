@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <security sessionManager="Supido.Demo.Service.Security.SessionManager" securityManager="Supido.Demo.Service.Security.SecurityManager" mapper="Mappers.xml"></security>
+  <service cors="true" apiPath="api">
+    <api path="client" dtoName="ClientDto" parameterName="ClientId">
+      <api path="project" dtoName="ProjectDto" parameterName="ProjectId">
+        <api path="service" dtoName="ServiceDto" parameterName="ServiceId">
+          <api path="task" dtoName="TaskDto" parameterName="TaskId"></api>
+        </api>
+      </api>
+    </api>
+    <api path="department" dto="DepartmentDto" parameterName="DepartmentId"></api>
+  </service>
+</configuration>

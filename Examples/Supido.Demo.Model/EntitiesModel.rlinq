@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DomainModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="2.0.0.0" name="EntitiesModel" namespace="Supido.Demo.Model" showPropertiesCompartment="true" xmlns="http://www.telerik.com/ORM">
+  <orm:orm name="EntitiesModel" backend="mssql" default-schema="dbo" xmlns:orm="http://tempuri.org/ORM">
+    <orm:namespace name="Supido.Demo.Model" default="true">
+      <orm:class name="User" uniqueId="3bcec2d2-6fe4-4773-b689-6a3ada5cc850">
+        <orm:table name="User" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="UserId" />
+          </orm:key-generator>
+          <orm:single-field field-name="userId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="userId" property="UserId" behavior="readwrite" uniqueId="54ae9526-f3dc-4e5f-b3fe-3a7a5ca349f0" type="System.Int32">
+          <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="departmentId" property="DepartmentId" behavior="readwrite" uniqueId="2904d624-9110-41fe-934d-05e8e75c039c" type="System.Int32">
+          <orm:column name="department_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="a2446cdf-9b24-447e-9ed6-82c19a880f73" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="email" property="Email" behavior="readwrite" uniqueId="2feb6890-726c-45cb-b672-41b0f31dd51c" type="System.String">
+          <orm:column name="email" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="password" property="Password" behavior="readwrite" uniqueId="9f83024e-30c5-469b-a8d0-f66d356c8cc1" type="System.String">
+          <orm:column name="password" sql-type="nvarchar" nullable="false" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="department" property="Department" behavior="readwrite" uniqueId="9b85c725-cfa9-47d5-8236-152b64d01471" type="Supido.Demo.Model.Department">
+          <orm:reference uniqueId="21ea96ed-0dff-4958-b83c-5a2b07e3a4ab" association-name="UserHasDepartment">
+            <orm:sharedfield name="departmentId" target-class="Supido.Demo.Model.Department" target-field="departmentId" />
+            <orm:constraint name="FK_User_Department" delete-action="dbdefaultrule" destination-table="Department" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="tasks" property="Tasks" behavior="readwrite" uniqueId="fcc74ced-4c9d-43c3-84e8-6226f15c0dd8" type="Supido.Demo.Model.Task">
+          <orm:collection element-class="Supido.Demo.Model.Task" inverse-field="user" order-by="" uniqueId="33d172e3-d835-419c-bd6c-49be2967642c" />
+        </orm:field>
+        <orm:field name="sessions" property="Sessions" behavior="readwrite" uniqueId="154c8051-14f8-4dee-aefa-10fb32f37b4f" type="Supido.Demo.Model.Session">
+          <orm:collection element-class="Supido.Demo.Model.Session" inverse-field="user" order-by="" uniqueId="361789b4-e7bd-4604-80e6-a5404deb8eb0" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="TaskType" uniqueId="d5b03a8a-f6d6-43af-8841-4884b9ebe9bc">
+        <orm:table name="TaskType" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="TaskTypeId" />
+          </orm:key-generator>
+          <orm:single-field field-name="taskTypeId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="taskTypeId" property="TaskTypeId" behavior="readwrite" uniqueId="38d555b7-7f05-4100-b151-0d390eec7123" type="System.Int32">
+          <orm:column name="task_type_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="2566acb1-81a7-4074-adb6-8bce0162aecb" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="tasks" property="Tasks" behavior="readwrite" uniqueId="4192a5a6-2749-4414-9b4e-267a606e07cb" type="Supido.Demo.Model.Task">
+          <orm:collection element-class="Supido.Demo.Model.Task" inverse-field="taskType" order-by="" uniqueId="329788de-7d0a-4bb0-a6a8-a20a8f40a982" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Task" uniqueId="ea235773-febf-43c1-bb97-f568d538140d">
+        <orm:table name="Task" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="TaskId" />
+          </orm:key-generator>
+          <orm:single-field field-name="taskId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="taskId" property="TaskId" behavior="readwrite" uniqueId="1bb2a697-0128-4c2b-a8fe-c877b5191499" type="System.Int32">
+          <orm:column name="task_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="serviceId" property="ServiceId" behavior="readwrite" uniqueId="4093deff-7d6d-4d39-aea9-9842cbdb660a" type="System.Int32">
+          <orm:column name="service_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="taskTypeId" property="TaskTypeId" behavior="readwrite" uniqueId="4c520467-826d-4c8d-a593-e859ff08d265" type="System.Int32">
+          <orm:column name="task_type_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="assignedUserId" property="AssignedUserId" behavior="readwrite" uniqueId="69f4498e-259f-4f19-bec7-bfbadc65740d" type="System.Int32">
+          <orm:column name="assigned_user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="67138fbe-b579-4d9c-b663-3ffee0d959a8" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="priority" property="Priority" behavior="readwrite" uniqueId="a5bb0b7d-385d-43f6-b695-1fcaec7f553e" type="System.Int32">
+          <orm:column name="priority" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="service" property="Service" behavior="readwrite" uniqueId="6d82e1d7-ddf4-40f8-beda-14a25960fec0" type="Supido.Demo.Model.Service">
+          <orm:reference uniqueId="a8f4bc0b-3659-41cd-86c1-6e795b0c350b" association-name="TaskHasService">
+            <orm:sharedfield name="serviceId" target-class="Supido.Demo.Model.Service" target-field="serviceId" />
+            <orm:constraint name="FK_Task_Service" delete-action="dbdefaultrule" destination-table="Service" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="taskType" property="TaskType" behavior="readwrite" uniqueId="9c4abaa1-3676-487d-b252-f47b95c81837" type="Supido.Demo.Model.TaskType">
+          <orm:reference uniqueId="329788de-7d0a-4bb0-a6a8-a20a8f40a982" association-name="TaskHasTaskType">
+            <orm:sharedfield name="taskTypeId" target-class="Supido.Demo.Model.TaskType" target-field="taskTypeId" />
+            <orm:constraint name="FK_Task_TaskType" delete-action="dbdefaultrule" destination-table="TaskType" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="user" property="User" behavior="readwrite" uniqueId="cec65c6e-77d5-4365-807e-8b061d17cbd9" type="Supido.Demo.Model.User">
+          <orm:reference uniqueId="33d172e3-d835-419c-bd6c-49be2967642c" association-name="TaskHasUser">
+            <orm:sharedfield name="assignedUserId" target-class="Supido.Demo.Model.User" target-field="userId" />
+            <orm:constraint name="FK_Task_User" delete-action="dbdefaultrule" destination-table="User" />
+          </orm:reference>
+        </orm:field>
+      </orm:class>
+      <orm:class name="Session" uniqueId="6496c31c-2e11-4c60-9038-adf1ee5cf038">
+        <orm:table name="Session" />
+        <orm:identity>
+          <orm:single-field field-name="sessionToken" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="sessionToken" property="SessionToken" behavior="readwrite" uniqueId="bb2932ef-58e3-4060-9852-d8217f740613" type="System.String">
+          <orm:column name="session_token" sql-type="nvarchar" nullable="false" length="32" scale="0" primary-key="true" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="userId" property="UserId" behavior="readwrite" uniqueId="abc8a3ce-d2e1-47c7-9db8-0de803556710" type="System.Int32">
+          <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="creationDttm" property="CreationDttm" behavior="readwrite" uniqueId="6bb2ebed-e5f8-47d6-a519-9dbad0561948" type="System.DateTime">
+          <orm:column name="creation_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="updateDttm" property="UpdateDttm" behavior="readwrite" uniqueId="4c665d27-14e2-4f25-acc1-a8b227696dc7" type="System.DateTime">
+          <orm:column name="update_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="user" property="User" behavior="readwrite" uniqueId="388c6d99-4e1e-4a7f-b917-0f2de0ae13e5" type="Supido.Demo.Model.User">
+          <orm:reference uniqueId="361789b4-e7bd-4604-80e6-a5404deb8eb0" association-name="SessionHasUser">
+            <orm:sharedfield name="userId" target-class="Supido.Demo.Model.User" target-field="userId" />
+            <orm:constraint name="FK_Session_User" delete-action="dbdefaultrule" destination-table="User" />
+          </orm:reference>
+        </orm:field>
+      </orm:class>
+      <orm:class name="Service" uniqueId="be98153d-834e-4bf7-a5c6-048f38a8159f">
+        <orm:table name="Service" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="ServiceId" />
+          </orm:key-generator>
+          <orm:single-field field-name="serviceId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="serviceId" property="ServiceId" behavior="readwrite" uniqueId="42d1f7c7-b7af-4f5f-8f1f-ff0852a2801a" type="System.Int32">
+          <orm:column name="service_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="projectId" property="ProjectId" behavior="readwrite" uniqueId="948902f7-778e-4efa-bc93-9614d7b9a16b" type="System.Int32">
+          <orm:column name="project_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="2a999905-ad16-4278-8cf4-de29f2d66ac4" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="tasks" property="Tasks" behavior="readwrite" uniqueId="372e81db-40e5-4881-98fb-8bb759625a9c" type="Supido.Demo.Model.Task">
+          <orm:collection element-class="Supido.Demo.Model.Task" inverse-field="service" order-by="" uniqueId="a8f4bc0b-3659-41cd-86c1-6e795b0c350b" />
+        </orm:field>
+        <orm:field name="project" property="Project" behavior="readwrite" uniqueId="c8d48c05-7d01-44b8-86f0-d6d9995b7701" type="Supido.Demo.Model.Project">
+          <orm:reference uniqueId="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" association-name="ServiceHasProject">
+            <orm:sharedfield name="projectId" target-class="Supido.Demo.Model.Project" target-field="projectId" />
+            <orm:constraint name="FK_Service_Project" delete-action="dbdefaultrule" destination-table="Project" />
+          </orm:reference>
+        </orm:field>
+      </orm:class>
+      <orm:class name="Project" uniqueId="09174805-a6da-4d8b-b91a-58874d8e477c">
+        <orm:table name="Project" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="ProjectId" />
+          </orm:key-generator>
+          <orm:single-field field-name="projectId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="projectId" property="ProjectId" behavior="readwrite" uniqueId="e03d3759-0fa3-407c-8648-be5752c85dc2" type="System.Int32">
+          <orm:column name="project_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="clientId" property="ClientId" behavior="readwrite" uniqueId="fd614655-9355-4336-b270-62cedb46c97c" type="System.Int32">
+          <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="6aaae0ec-cff2-4731-9944-da3ecd9d342d" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="services" property="Services" behavior="readwrite" uniqueId="249cf31d-293a-417e-be66-89bfda738584" type="Supido.Demo.Model.Service">
+          <orm:collection element-class="Supido.Demo.Model.Service" inverse-field="project" order-by="" uniqueId="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" />
+        </orm:field>
+        <orm:field name="client" property="Client" behavior="readwrite" uniqueId="bc17018a-0f66-4639-81b1-965963ddc8ac" type="Supido.Demo.Model.Client">
+          <orm:reference uniqueId="7e1b963b-33df-42d2-9a4e-2ad6ed7dff11" association-name="ProjectHasClient">
+            <orm:sharedfield name="clientId" target-class="Supido.Demo.Model.Client" target-field="clientId" />
+            <orm:constraint name="FK_Project_Client" delete-action="dbdefaultrule" destination-table="Client" />
+          </orm:reference>
+        </orm:field>
+      </orm:class>
+      <orm:class name="Department" uniqueId="d5266a9d-426d-4520-93d7-b3417b6c9396">
+        <orm:table name="Department" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="DepartmentId" />
+          </orm:key-generator>
+          <orm:single-field field-name="departmentId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="departmentId" property="DepartmentId" behavior="readwrite" uniqueId="fc7aa282-45c4-44a9-b33d-0af9c4d72c55" type="System.Int32">
+          <orm:column name="department_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="6227791e-9f3d-4839-99de-8aac3dbc453c" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="users" property="Users" behavior="readwrite" uniqueId="48f605a9-12a9-4dca-af69-1642532ecdd3" type="Supido.Demo.Model.User">
+          <orm:collection element-class="Supido.Demo.Model.User" inverse-field="department" order-by="" uniqueId="21ea96ed-0dff-4958-b83c-5a2b07e3a4ab" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Client" uniqueId="9636dc79-8ad0-4f04-9686-ba0beb55fb5d">
+        <orm:table name="Client" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="ClientId" />
+          </orm:key-generator>
+          <orm:single-field field-name="clientId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="clientId" property="ClientId" behavior="readwrite" uniqueId="5236f8ed-b947-4eed-9dbc-40f343827067" type="System.Int32">
+          <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="aa7cbfd7-87f4-4cdc-a0c1-cc7bb716b854" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="projects" property="Projects" behavior="readwrite" uniqueId="750e782a-1792-425e-8b40-cb285ab632bc" type="Supido.Demo.Model.Project">
+          <orm:collection element-class="Supido.Demo.Model.Project" inverse-field="client" order-by="" uniqueId="7e1b963b-33df-42d2-9a4e-2ad6ed7dff11" />
+        </orm:field>
+      </orm:class>
+    </orm:namespace>
+    <orm:schema schema="">
+      <orm:table name="User">
+        <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="department_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="email" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="password" sql-type="nvarchar" nullable="false" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:constraint name="FK_User_Department" delete-action="dbdefaultrule" destination-table="Department">
+          <orm:column name="department_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="TaskType">
+        <orm:column name="task_type_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+      <orm:table name="Task">
+        <orm:column name="task_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="service_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="task_type_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="assigned_user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="priority" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:constraint name="FK_Task_Service" delete-action="dbdefaultrule" destination-table="Service">
+          <orm:column name="service_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="FK_Task_TaskType" delete-action="dbdefaultrule" destination-table="TaskType">
+          <orm:column name="task_type_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="FK_Task_User" delete-action="dbdefaultrule" destination-table="User">
+          <orm:column name="assigned_user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="Session">
+        <orm:column name="session_token" sql-type="nvarchar" nullable="false" length="32" scale="0" primary-key="true" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="creation_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        <orm:column name="update_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        <orm:constraint name="FK_Session_User" delete-action="dbdefaultrule" destination-table="User">
+          <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="Service">
+        <orm:column name="service_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="project_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:constraint name="FK_Service_Project" delete-action="dbdefaultrule" destination-table="Project">
+          <orm:column name="project_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="Project">
+        <orm:column name="project_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:constraint name="FK_Project_Client" delete-action="dbdefaultrule" destination-table="Client">
+          <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="Department">
+        <orm:column name="department_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+      <orm:table name="Client">
+        <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+    </orm:schema>
+    <orm:relational-naming-settings>
+      <orm:source-strategy>Property</orm:source-strategy>
+      <orm:remove-camel-case>False</orm:remove-camel-case>
+    </orm:relational-naming-settings>
+  </orm:orm>
+  <ModelSettings xmlns="">
+    <AppConfigConnectionPropertyName>Supido_exampleConnection</AppConfigConnectionPropertyName>
+    <AppConfigConnectionString>Data Source=ISA-PC\SQLEXPRESS;Initial Catalog=supido_example;Integrated Security=True</AppConfigConnectionString>
+    <InitialCatalog>supido_example</InitialCatalog>
+    <NamingSettings>
+      <ClassRules>
+        <CaseMode>PascalCase</CaseMode>
+        <PluralizationMode>Singularize</PluralizationMode>
+        <RemoveUnderscore>true</RemoveUnderscore>
+        <UnderscoreAsWordDelimiter>true</UnderscoreAsWordDelimiter>
+      </ClassRules>
+      <FieldRules>
+        <CaseMode>CamelCase</CaseMode>
+        <RemoveUnderscore>true</RemoveUnderscore>
+        <UnderscoreAsWordDelimiter>true</UnderscoreAsWordDelimiter>
+      </FieldRules>
+      <PropertyRules>
+        <CaseMode>PascalCase</CaseMode>
+        <RemoveUnderscore>true</RemoveUnderscore>
+        <UnderscoreAsWordDelimiter>true</UnderscoreAsWordDelimiter>
+      </PropertyRules>
+      <NavigationPropertyRules />
+    </NamingSettings>
+    <CodeGenerationSettings>
+      <MappingDefinitionType>Xml</MappingDefinitionType>
+    </CodeGenerationSettings>
+    <SchemaUpdateSettings />
+    <BackendConfigurationSettings>
+      <BackendConfiguration>
+        <Backend>MsSql</Backend>
+        <ProviderName>System.Data.SqlClient</ProviderName>
+      </BackendConfiguration>
+    </BackendConfigurationSettings>
+  </ModelSettings>
+  <Types>
+    <DomainClass Id="3bcec2d2-6fe4-4773-b689-6a3ada5cc850" name="User" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="UserId">
+      <Property Id="54ae9526-f3dc-4e5f-b3fe-3a7a5ca349f0" name="UserId" type="Int32" label="UserId : Int32" kind="Persistent" identity="true" fieldName="userId" />
+      <Property Id="2904d624-9110-41fe-934d-05e8e75c039c" name="DepartmentId" type="Int32" label="DepartmentId : Int32" kind="Persistent" fieldName="departmentId" />
+      <Property Id="2feb6890-726c-45cb-b672-41b0f31dd51c" name="Email" label="Email : String" kind="Persistent" fieldName="email" />
+      <Property Id="a2446cdf-9b24-447e-9ed6-82c19a880f73" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <Property Id="9f83024e-30c5-469b-a8d0-f66d356c8cc1" name="Password" label="Password : String" kind="Persistent" fieldName="password" />
+      <AssociationTargets>
+        <Association Id="21ea96ed-0dff-4958-b83c-5a2b07e3a4ab" SourceMultiplicity="One" name="UserHasDepartment">
+          <DomainClassMoniker name="/EntitiesModel/Department" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="27689600-050e-4044-8ec9-ef346630186e">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Department/Users" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="7a8f5662-891e-4083-8d65-f918ac76727d">
+              <NavigationalPropertyMoniker name="/EntitiesModel/User/Department" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="78050470-2b9d-4d2d-a5ef-44d27f1dfb1a">
+          <NavigationalProperty Id="9b85c725-cfa9-47d5-8236-152b64d01471" name="Department" type="Department" label="Department : Department" nullable="true" kind="Persistent" fieldName="department" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="7de60fd4-4412-4fcd-af6c-61e896eccb7a">
+          <NavigationalProperty Id="fcc74ced-4c9d-43c3-84e8-6226f15c0dd8" name="Tasks" type="IList&lt;Task&gt;" label="Tasks : IList&lt;Task&gt;" nullable="true" kind="Persistent" fieldName="tasks" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="8ba3fb2d-b6d6-4c8e-b68c-f2cbfb782f5a">
+          <NavigationalProperty Id="154c8051-14f8-4dee-aefa-10fb32f37b4f" name="Sessions" type="IList&lt;Session&gt;" label="Sessions : IList&lt;Session&gt;" nullable="true" kind="Persistent" fieldName="sessions" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="d5b03a8a-f6d6-43af-8841-4884b9ebe9bc" name="TaskType" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="TaskTypeId">
+      <Property Id="38d555b7-7f05-4100-b151-0d390eec7123" name="TaskTypeId" type="Int32" label="TaskTypeId : Int32" kind="Persistent" identity="true" fieldName="taskTypeId" />
+      <Property Id="2566acb1-81a7-4074-adb6-8bce0162aecb" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="15cf0ef1-75c4-4eb9-902c-b7d63ea172d0">
+          <NavigationalProperty Id="4192a5a6-2749-4414-9b4e-267a606e07cb" name="Tasks" type="IList&lt;Task&gt;" label="Tasks : IList&lt;Task&gt;" nullable="true" kind="Persistent" fieldName="tasks" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="ea235773-febf-43c1-bb97-f568d538140d" name="Task" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="TaskId">
+      <Property Id="1bb2a697-0128-4c2b-a8fe-c877b5191499" name="TaskId" type="Int32" label="TaskId : Int32" kind="Persistent" identity="true" fieldName="taskId" />
+      <Property Id="69f4498e-259f-4f19-bec7-bfbadc65740d" name="AssignedUserId" type="Int32" label="AssignedUserId : Int32" kind="Persistent" fieldName="assignedUserId" />
+      <Property Id="67138fbe-b579-4d9c-b663-3ffee0d959a8" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <Property Id="a5bb0b7d-385d-43f6-b695-1fcaec7f553e" name="Priority" type="Int32" label="Priority : Int32" kind="Persistent" fieldName="priority" />
+      <Property Id="4093deff-7d6d-4d39-aea9-9842cbdb660a" name="ServiceId" type="Int32" label="ServiceId : Int32" kind="Persistent" fieldName="serviceId" />
+      <Property Id="4c520467-826d-4c8d-a593-e859ff08d265" name="TaskTypeId" type="Int32" label="TaskTypeId : Int32" kind="Persistent" fieldName="taskTypeId" />
+      <AssociationTargets>
+        <Association Id="a8f4bc0b-3659-41cd-86c1-6e795b0c350b" SourceMultiplicity="One" name="TaskHasService">
+          <DomainClassMoniker name="/EntitiesModel/Service" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="9e27108a-7d33-440b-ab90-1628d06a4041">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Service/Tasks" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="4bd6979a-3d01-4724-8ca3-9051dfea63ff">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Task/Service" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="329788de-7d0a-4bb0-a6a8-a20a8f40a982" SourceMultiplicity="One" name="TaskHasTaskType">
+          <DomainClassMoniker name="/EntitiesModel/TaskType" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="72f7db2d-a9f4-4f1f-a8ea-2bd1667d18ee">
+              <NavigationalPropertyMoniker name="/EntitiesModel/TaskType/Tasks" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="4c102bcd-b72b-4a40-bfbb-f9666baf36ff">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Task/TaskType" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="33d172e3-d835-419c-bd6c-49be2967642c" SourceMultiplicity="One" name="TaskHasUser">
+          <DomainClassMoniker name="/EntitiesModel/User" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="b589db83-f702-43c0-aa90-733449db94dc">
+              <NavigationalPropertyMoniker name="/EntitiesModel/User/Tasks" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="8b107652-a268-4ea3-a660-47108ef8d3c1">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Task/User" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="80548d8f-1fc3-439c-8be5-76c69ecda282">
+          <NavigationalProperty Id="6d82e1d7-ddf4-40f8-beda-14a25960fec0" name="Service" type="Service" label="Service : Service" nullable="true" kind="Persistent" fieldName="service" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="5389caf0-7d33-41e7-87db-f512a04a6ae8">
+          <NavigationalProperty Id="9c4abaa1-3676-487d-b252-f47b95c81837" name="TaskType" type="TaskType" label="TaskType : TaskType" nullable="true" kind="Persistent" fieldName="taskType" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="e3a42f65-4431-41d8-9389-1609dfcbf623">
+          <NavigationalProperty Id="cec65c6e-77d5-4365-807e-8b061d17cbd9" name="User" type="User" label="User : User" nullable="true" kind="Persistent" fieldName="user" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="6496c31c-2e11-4c60-9038-adf1ee5cf038" name="Session" namespace="Supido.Demo.Model" showPropertiesCompartment="true" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="bb2932ef-58e3-4060-9852-d8217f740613" name="SessionToken" label="SessionToken : String" kind="Persistent" identity="true" fieldName="sessionToken" />
+      <Property Id="6bb2ebed-e5f8-47d6-a519-9dbad0561948" name="CreationDttm" type="DateTime" label="CreationDttm : DateTime" kind="Persistent" fieldName="creationDttm" />
+      <Property Id="4c665d27-14e2-4f25-acc1-a8b227696dc7" name="UpdateDttm" type="DateTime" label="UpdateDttm : DateTime" kind="Persistent" fieldName="updateDttm" />
+      <Property Id="abc8a3ce-d2e1-47c7-9db8-0de803556710" name="UserId" type="Int32" label="UserId : Int32" kind="Persistent" fieldName="userId" />
+      <AssociationTargets>
+        <Association Id="361789b4-e7bd-4604-80e6-a5404deb8eb0" SourceMultiplicity="One" name="SessionHasUser">
+          <DomainClassMoniker name="/EntitiesModel/User" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="22c01557-da53-43cd-bcaa-651fea41df3b">
+              <NavigationalPropertyMoniker name="/EntitiesModel/User/Sessions" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="6faea94f-a4d5-4217-851c-3125f09b0476">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Session/User" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="0481e964-8854-408f-851b-27e5045d2ee3">
+          <NavigationalProperty Id="388c6d99-4e1e-4a7f-b917-0f2de0ae13e5" name="User" type="User" label="User : User" nullable="true" kind="Persistent" fieldName="user" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="be98153d-834e-4bf7-a5c6-048f38a8159f" name="Service" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ServiceId">
+      <Property Id="42d1f7c7-b7af-4f5f-8f1f-ff0852a2801a" name="ServiceId" type="Int32" label="ServiceId : Int32" kind="Persistent" identity="true" fieldName="serviceId" />
+      <Property Id="2a999905-ad16-4278-8cf4-de29f2d66ac4" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <Property Id="948902f7-778e-4efa-bc93-9614d7b9a16b" name="ProjectId" type="Int32" label="ProjectId : Int32" kind="Persistent" fieldName="projectId" />
+      <AssociationTargets>
+        <Association Id="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" SourceMultiplicity="One" name="ServiceHasProject">
+          <DomainClassMoniker name="/EntitiesModel/Project" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="72385a34-f809-4780-8129-860a6433bce2">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Project/Services" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="63396985-9d73-4e5e-a40a-a53375813861">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Service/Project" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="7ae64a19-ca25-4675-91ff-9df1a8698cb0">
+          <NavigationalProperty Id="372e81db-40e5-4881-98fb-8bb759625a9c" name="Tasks" type="IList&lt;Task&gt;" label="Tasks : IList&lt;Task&gt;" nullable="true" kind="Persistent" fieldName="tasks" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="11f7c692-7361-4ae2-a4a4-e8c740683ed6">
+          <NavigationalProperty Id="c8d48c05-7d01-44b8-86f0-d6d9995b7701" name="Project" type="Project" label="Project : Project" nullable="true" kind="Persistent" fieldName="project" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="09174805-a6da-4d8b-b91a-58874d8e477c" name="Project" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ProjectId">
+      <Property Id="e03d3759-0fa3-407c-8648-be5752c85dc2" name="ProjectId" type="Int32" label="ProjectId : Int32" kind="Persistent" identity="true" fieldName="projectId" />
+      <Property Id="fd614655-9355-4336-b270-62cedb46c97c" name="ClientId" type="Int32" label="ClientId : Int32" kind="Persistent" fieldName="clientId" />
+      <Property Id="6aaae0ec-cff2-4731-9944-da3ecd9d342d" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <AssociationTargets>
+        <Association Id="7e1b963b-33df-42d2-9a4e-2ad6ed7dff11" SourceMultiplicity="One" name="ProjectHasClient">
+          <DomainClassMoniker name="/EntitiesModel/Client" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="8a024b04-a1f2-4372-968c-e656f8384e08">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Client/Projects" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="a055280f-8bcf-4970-9fc5-a22b97fb5c84">
+              <NavigationalPropertyMoniker name="/EntitiesModel/Project/Client" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="a971e1bb-9736-4e2f-b2a1-d26021ee5c8b">
+          <NavigationalProperty Id="249cf31d-293a-417e-be66-89bfda738584" name="Services" type="IList&lt;Service&gt;" label="Services : IList&lt;Service&gt;" nullable="true" kind="Persistent" fieldName="services" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="bc3c55ac-57cb-41f4-963c-1cd724eabcee">
+          <NavigationalProperty Id="bc17018a-0f66-4639-81b1-965963ddc8ac" name="Client" type="Client" label="Client : Client" nullable="true" kind="Persistent" fieldName="client" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="d5266a9d-426d-4520-93d7-b3417b6c9396" name="Department" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="DepartmentId">
+      <Property Id="fc7aa282-45c4-44a9-b33d-0af9c4d72c55" name="DepartmentId" type="Int32" label="DepartmentId : Int32" kind="Persistent" identity="true" fieldName="departmentId" />
+      <Property Id="6227791e-9f3d-4839-99de-8aac3dbc453c" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="99c3d083-5cba-4467-8c8d-0e60ed77c187">
+          <NavigationalProperty Id="48f605a9-12a9-4dca-af69-1642532ecdd3" name="Users" type="IList&lt;User&gt;" label="Users : IList&lt;User&gt;" nullable="true" kind="Persistent" fieldName="users" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="9636dc79-8ad0-4f04-9686-ba0beb55fb5d" name="Client" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ClientId">
+      <Property Id="5236f8ed-b947-4eed-9dbc-40f343827067" name="ClientId" type="Int32" label="ClientId : Int32" kind="Persistent" identity="true" fieldName="clientId" />
+      <Property Id="aa7cbfd7-87f4-4cdc-a0c1-cc7bb716b854" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="f7b61ae6-fdba-4bde-8dbd-6ce487a5525c">
+          <NavigationalProperty Id="750e782a-1792-425e-8b40-cb285ab632bc" name="Projects" type="IList&lt;Project&gt;" label="Projects : IList&lt;Project&gt;" nullable="true" kind="Persistent" fieldName="projects" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+  </Types>
+  <domainContext>
+    <domainModelHasDomainContext Id="c95243f3-68ce-47f3-b409-a3f1eb0a95e6">
+      <domainContainer name="EntitiesModel" namespace="Supido.Demo.Model" showPropertiesCompartment="true">
+        <entitySetProperty name="Users" namespace="Supido.Demo.Model" type="User" label="Users : IQueryable&lt;Supido.Demo.Model.User&gt;" />
+        <entitySetProperty name="TaskTypes" namespace="Supido.Demo.Model" type="TaskType" label="TaskTypes : IQueryable&lt;Supido.Demo.Model.TaskType&gt;" />
+        <entitySetProperty name="Tasks" namespace="Supido.Demo.Model" type="Task" label="Tasks : IQueryable&lt;Supido.Demo.Model.Task&gt;" />
+        <entitySetProperty name="Sessions" namespace="Supido.Demo.Model" type="Session" label="Sessions : IQueryable&lt;Supido.Demo.Model.Session&gt;" />
+        <entitySetProperty name="Services" namespace="Supido.Demo.Model" type="Service" label="Services : IQueryable&lt;Supido.Demo.Model.Service&gt;" />
+        <entitySetProperty name="Projects" namespace="Supido.Demo.Model" type="Project" label="Projects : IQueryable&lt;Supido.Demo.Model.Project&gt;" />
+        <entitySetProperty name="Departments" namespace="Supido.Demo.Model" type="Department" label="Departments : IQueryable&lt;Supido.Demo.Model.Department&gt;" />
+        <entitySetProperty name="Clients" namespace="Supido.Demo.Model" type="Client" label="Clients : IQueryable&lt;Supido.Demo.Model.Client&gt;" />
+      </domainContainer>
+    </domainModelHasDomainContext>
+  </domainContext>
+</DomainModel>

@@ -51,6 +51,7 @@
     <Compile Include="Configuration\ApiNode.cs" />
     <Compile Include="Configuration\IServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceConfiguration.cs" />
+    <Compile Include="Configuration\ServiceInitializer.cs" />
     <Compile Include="Contracts\IRestService.cs" />
     <Compile Include="Contracts\MessagePath.cs" />
     <Compile Include="Cors\CorsConstants.cs" />

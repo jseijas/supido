@@ -91,7 +91,7 @@ namespace Supido.Core.Types
                     result = LoadFromAssembly(typeInfo);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 //throw new TypeLoadException(string.Format("Could not resolve type '{0}'.", typeName), ex);
                 return null;

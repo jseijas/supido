@@ -1,5 +1,4 @@
-﻿using Supido.Business.Audit;
-using Supido.Business.BO;
+﻿using Supido.Business.BO;
 using Supido.Business.DTO;
 using Supido.Core.Container;
 using System;
@@ -88,16 +87,6 @@ namespace Supido.Business.Context
         public void Rollback()
         {
             this.Context.ClearChanges();
-        }
-
-        /// <summary>
-        /// Adds an audit trail.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="entity">The entity.</param>
-        public void AuditTrail(AuditOperationType type, object entity)
-        {
-            //throw new NotImplementedException();
         }
 
         /// <summary>

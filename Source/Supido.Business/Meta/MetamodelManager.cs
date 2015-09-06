@@ -88,6 +88,12 @@ namespace Supido.Business.Meta
             return this.entityNameMap.ContainsKey(name) ? this.entityNameMap[name] : null;
         }
 
+        public IMetamodelEntity GetEntityByDtoName(string name)
+        {
+            name = name.ToLower();
+            return this.dtoNameMap.ContainsKey(name) ? this.dtoNameMap[name] : null;
+        }
+
         /// <summary>
         /// Registers one entity.
         /// </summary>
@@ -121,6 +127,15 @@ namespace Supido.Business.Meta
                 {
                     this.dtoMap.Add(dtoType, entity);
                 }
+                string lowname = dtoType.Name.ToLower();
+                if (this.dtoNameMap.ContainsKey(lowname))
+                {
+                    this.dtoNameMap[lowname] = entity;
+                }
+                else
+                {
+                    this.dtoNameMap.Add(lowname, entity);
+                }
             }
             return entity;       
         }
@@ -146,6 +161,15 @@ namespace Supido.Business.Meta
             else
             {
                 this.dtoMap.Add(dtoType, metamodelEntity);
+            }
+            string lowname = dtoType.Name.ToLower();
+            if (this.dtoNameMap.ContainsKey(lowname))
+            {
+                this.dtoNameMap[lowname] = metamodelEntity;
+            }
+            else
+            {
+                this.dtoNameMap.Add(lowname, metamodelEntity);
             }
             IObjectProxy proxy = ObjectProxyFactory.GetByType(dtoType);
             IList<string> sourceNames = new List<string>();

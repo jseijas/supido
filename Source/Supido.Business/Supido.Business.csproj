@@ -61,8 +61,6 @@
     <Compile Include="Attributes\DtoAttribute.cs" />
     <Compile Include="Attributes\DtoField.cs" />
     <Compile Include="Attributes\FilterAttribute.cs" />
-    <Compile Include="Audit\AuditOperationType.cs" />
-    <Compile Include="Audit\IAuditManager.cs" />
     <Compile Include="BO\BaseBO.cs" />
     <Compile Include="BO\BOEventArgs.cs" />
     <Compile Include="BO\BOManager.cs" />

@@ -1,5 +1,4 @@
-﻿using Supido.Business.Audit;
-using Supido.Business.BO;
+﻿using Supido.Business.BO;
 using Supido.Business.Context;
 using Supido.Business.DTO;
 using Supido.Business.Meta;
@@ -38,14 +37,6 @@ namespace Supido.Business
         /// The business object manager.
         /// </value>
         IBOManager BOManager { get; }
-
-        /// <summary>
-        /// Gets the audit manager.
-        /// </summary>
-        /// <value>
-        /// The audit manager.
-        /// </value>
-        IAuditManager AuditManager { get; }
 
         /// <summary>
         /// Gets the type of the database context.

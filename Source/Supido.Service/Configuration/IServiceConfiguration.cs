@@ -1,4 +1,5 @@
 ﻿
+using System;
 namespace Supido.Service.Configuration
 {
     /// <summary>
@@ -31,6 +32,12 @@ namespace Supido.Service.Configuration
         /// The root.
         /// </value>
         ApiNode Root { get; }
+
+        #endregion
+
+        #region - Methods -
+
+        ApiNode AddNode(string path, Type dtoType, string parameterName);
 
         #endregion
     }

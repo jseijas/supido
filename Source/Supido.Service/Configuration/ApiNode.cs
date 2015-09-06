@@ -93,7 +93,7 @@ namespace Supido.Service.Configuration
         /// <param name="dtoType">Type of the dto.</param>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <returns></returns>
-        public ApiNode Add(string path, Type dtoType, string parameterName)
+        public ApiNode AddNode(string path, Type dtoType, string parameterName)
         {
             ApiNode result = new ApiNode(this, path, dtoType, parameterName);
             this.Sons.Add(result.Path.ToLower(), result);

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Supido.Demo.Service.Services.Security" CodeBehind="Security.svc.cs" %>

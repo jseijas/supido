@@ -1,5 +1,4 @@
-﻿using Supido.Business.Audit;
-using Supido.Business.Context;
+﻿using Supido.Business.Context;
 using Supido.Business.Filter;
 using Supido.Business.Meta;
 using Supido.Business.Query;
@@ -253,7 +252,6 @@ namespace Supido.Business.BO
             {
                 this.Context.Add(entity);
                 this.Context.FlushChanges();
-                this.ContextManager.AuditTrail(AuditOperationType.Insert, entity);
                 this.Commit();
                 return entity;
             }
@@ -282,7 +280,6 @@ namespace Supido.Business.BO
                 object target = this.Context.GetObjectByKey(helper.GetObjectKey(entity));
                 helper.FillUpdate(entity, target);
                 this.Context.FlushChanges();
-                this.ContextManager.AuditTrail(AuditOperationType.Update, entity);
                 this.Commit();
                 return target;
             }
@@ -310,7 +307,6 @@ namespace Supido.Business.BO
                 IMetamodelEntity helper = IoC.Get<ISecurityManager>().MetamodelManager.GetEntity(this.EntityType);
                 object entity = this.Context.GetObjectByKey(helper.GetObjectKeyByPk(pk));
                 this.Context.Delete(entity);
-                this.ContextManager.AuditTrail(AuditOperationType.Delete, entity);
                 this.Commit();
                 return 1;
             }

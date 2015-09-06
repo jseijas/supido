@@ -58,7 +58,7 @@ namespace Supido.Service.Configuration
         /// <returns></returns>
         public ApiNode AddNode(string path, Type dtoType, string parameterName)
         {
-            return this.Root.Add(path, dtoType, parameterName);
+            return this.Root.AddNode(path, dtoType, parameterName);
         }
 
         #endregion

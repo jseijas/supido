@@ -1,5 +1,4 @@
-﻿using Supido.Business.Audit;
-using Supido.Business.BO;
+﻿using Supido.Business.BO;
 using Supido.Business.DTO;
 using Telerik.OpenAccess;
 
@@ -51,13 +50,6 @@ namespace Supido.Business.Context
         /// Rollbacks the current transaction.
         /// </summary>
         void Rollback();
-
-        /// <summary>
-        /// Adds an audit trail.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="entity">The entity.</param>
-        void AuditTrail(AuditOperationType type, object entity);
 
         /// <summary>
         /// Creates a new BO for the given DTO type.
