@@ -243,6 +243,31 @@ namespace Supido.Business.Security
             return AttributeUtil.GetAttributeFrom<BOAttribute>(type) != null;
         }
 
+        public void ProcessDynamicDto(Type dtoType, Type entityType)
+        {
+            IMetamodelEntity metaEntity = this.Parent.MetamodelManager.RegisterEntity(entityType, dtoType);
+            if (this.Metatables.ContainsKey(entityType.FullName))
+            {
+                MetaPersistentType metaType = this.Metatables[entityType.FullName];
+                Dictionary<MetaColumn, MetaMember> mapColumns = new Dictionary<MetaColumn, MetaMember>();
+                foreach (MetaMember member in metaType.Members)
+                {
+                    MetaPrimitiveMember primitiveMember = member as MetaPrimitiveMember;
+                    if (primitiveMember != null)
+                    {
+                        mapColumns.Add(primitiveMember.Column, member);
+                    }
+                }
+                MetaTable metaTable = metaType.Table;
+                foreach (MetaColumn metaColumn in metaTable.Columns)
+                {
+                    MetaMember member = mapColumns[metaColumn];
+                    metaEntity.AddField(member.Name, metaColumn.IsPrimaryKey, !metaColumn.IsPrimaryKey);
+                }
+
+            }
+        }
+
         /// <summary>
         /// Processes the type if it's a DTO
         /// </summary>

@@ -2,6 +2,7 @@
 using Supido.Business.Context;
 using Supido.Business.DTO;
 using Supido.Business.Meta;
+using Supido.Business.Security;
 using Supido.Business.Session;
 using System;
 
@@ -45,6 +46,9 @@ namespace Supido.Business
         /// The type of the context.
         /// </value>
         Type ContextType { get; }
+
+        SecurityScanner Scanner { get; }
+
 
         #endregion
 

@@ -81,12 +81,7 @@
     <Compile Include="Services\Security.svc.cs">
       <DependentUpon>Security.svc</DependentUpon>
     </Compile>
-    <Compile Include="DTO\ClientDto.cs" />
-    <Compile Include="DTO\DepartmentDto.cs" />
-    <Compile Include="DTO\ProjectDto.cs" />
-    <Compile Include="DTO\ServiceDto.cs" />
     <Compile Include="DTO\SessionDto.cs" />
-    <Compile Include="DTO\TaskDto.cs" />
     <Compile Include="DTO\TaskTypeDto.cs" />
     <Compile Include="DTO\UserDto.cs" />
     <Compile Include="Global.asax.cs">

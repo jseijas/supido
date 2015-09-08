@@ -70,6 +70,8 @@ namespace Supido.Business.Security
         /// </value>
         public Type ContextType { get; private set; }
 
+        public SecurityScanner Scanner { get; private set; }
+
         #endregion
 
         #region - Constructors -
@@ -156,17 +158,17 @@ namespace Supido.Business.Security
             string entityPreffix = rootAtributes.AsString("entityPreffix");
             if (autoscan)
             {
-                SecurityScanner scanner = new SecurityScanner(this);
-                scanner.EntityPreffix = rootAtributes.AsString("entityPreffix");
-                scanner.EntitySuffix = rootAtributes.AsString("entitySuffix");
-                scanner.DtoPreffix = rootAtributes.AsString("dtoPreffix");
-                scanner.DtoSuffix = rootAtributes.AsString("dtoSuffix", "Dto");
-                scanner.FilterPreffix = rootAtributes.AsString("filterPreffix");
-                scanner.FilterSuffix = rootAtributes.AsString("filterSuffix", "Filter");
-                scanner.BOPreffix = rootAtributes.AsString("boPreffix");
-                scanner.BOSuffix = rootAtributes.AsString("boSuffix", "BO");
-                scanner.Metatables = metatables;
-                scanner.ScanNamespace(rootAtributes.AsString("namespaces"));
+                this.Scanner = new SecurityScanner(this);
+                this.Scanner.EntityPreffix = rootAtributes.AsString("entityPreffix");
+                this.Scanner.EntitySuffix = rootAtributes.AsString("entitySuffix");
+                this.Scanner.DtoPreffix = rootAtributes.AsString("dtoPreffix");
+                this.Scanner.DtoSuffix = rootAtributes.AsString("dtoSuffix", "Dto");
+                this.Scanner.FilterPreffix = rootAtributes.AsString("filterPreffix");
+                this.Scanner.FilterSuffix = rootAtributes.AsString("filterSuffix", "Filter");
+                this.Scanner.BOPreffix = rootAtributes.AsString("boPreffix");
+                this.Scanner.BOSuffix = rootAtributes.AsString("boSuffix", "BO");
+                this.Scanner.Metatables = metatables;
+                this.Scanner.ScanNamespace(rootAtributes.AsString("namespaces"));
             }
         }
 
@@ -198,17 +200,17 @@ namespace Supido.Business.Security
             }
             else
             {
-                SecurityScanner scanner = new SecurityScanner(this);
-                scanner.EntityPreffix = string.Empty;
-                scanner.EntitySuffix = string.Empty;
-                scanner.DtoPreffix = string.Empty;
-                scanner.DtoSuffix = "Dto";
-                scanner.FilterPreffix = string.Empty;
-                scanner.FilterSuffix = "Filter";
-                scanner.BOPreffix = string.Empty;
-                scanner.BOSuffix = "BO";
-                scanner.Metatables = metatables;
-                scanner.ScanNamespace(string.Empty);
+                this.Scanner = new SecurityScanner(this);
+                this.Scanner.EntityPreffix = string.Empty;
+                this.Scanner.EntitySuffix = string.Empty;
+                this.Scanner.DtoPreffix = string.Empty;
+                this.Scanner.DtoSuffix = "Dto";
+                this.Scanner.FilterPreffix = string.Empty;
+                this.Scanner.FilterSuffix = "Filter";
+                this.Scanner.BOPreffix = string.Empty;
+                this.Scanner.BOSuffix = "BO";
+                this.Scanner.Metatables = metatables;
+                this.Scanner.ScanNamespace(string.Empty);
             }
         }
 

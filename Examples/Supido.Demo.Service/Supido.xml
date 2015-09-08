@@ -2,13 +2,13 @@
 <configuration>
   <security sessionManager="Supido.Demo.Service.Security.SessionManager" securityManager="Supido.Demo.Service.Security.SecurityManager"></security>
   <service cors="true" apiPath="api">
-    <api path="client" dtoName="ClientDto" parameterName="ClientId">
-      <api path="project" dtoName="ProjectDto" parameterName="ProjectId">
-        <api path="service" dtoName="ServiceDto" parameterName="ServiceId">
-          <api path="task" dtoName="TaskDto" parameterName="TaskId"></api>
+    <api path="client" entityType="Supido.Demo.Model.Client" parameterName="ClientId">
+      <api path="project" entityType="Supido.Demo.Model.Project" parameterName="ProjectId">
+        <api path="service" entityType="Supido.Demo.Model.Service" parameterName="ServiceId">
+          <api path="task" entityType="Supido.Demo.Model.Task" parameterName="TaskId"></api>
         </api>
       </api>
     </api>
-    <api path="department" dto="DepartmentDto" parameterName="DepartmentId"></api>
+    <api path="department" entityType="Supido.Demo.Model.Department" parameterName="DepartmentId"></api>
   </service>
 </configuration>
