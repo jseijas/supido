@@ -6,11 +6,14 @@
       <api path="project">
         <api path="service">
           <api path="task">
-            <api path="taskType" byparent="TaskTypeId"></api>
+            <api path="taskType" byparent="TaskTypeId" parameterName="TaskTypeId"></api>
+            <api path="user" byparent="AssignedUserId" parameterName="UserId"></api>
           </api>
         </api>
       </api>
     </api>
-    <api path="department"></api>
+    <api path="department">
+      <api path="user"></api>
+    </api>
   </service>
 </configuration>

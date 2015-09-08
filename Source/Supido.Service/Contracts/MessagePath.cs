@@ -36,6 +36,8 @@ namespace Supido.Service.Contracts
 
         public string ParentKeyParameter { get; set; }
 
+        public string KeyParameterName { get; set; }
+
         public MessagePath(MessageInformation information)
         {
             this.Configuration = IoC.Get<IServiceConfiguration>();
@@ -115,6 +117,7 @@ namespace Supido.Service.Contracts
                 this.IsByParent = false;
                 this.ParentKeyParameter = string.Empty;
             }
+            this.KeyParameterName = node.ParameterName;
             this.EntityType = entityType;
             this.DtoType = node.DtoType;
             max = this.HasKeyParameter ? paths.Count-1 : paths.Count;

@@ -66,7 +66,7 @@ namespace Supido.Service.Contracts
                     IObjectProxy proxy = ObjectProxyFactory.Get(parent);
                     object value = proxy.GetValue(parent, path.ParentKeyParameter);
                     QueryInfo query = new QueryInfo();
-                    query.Equal(path.ParentKeyParameter, value.ToString());
+                    query.Equal(path.KeyParameterName, value.ToString());
                     bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
                     response = bo.GetOne(string.Empty, query);
                 }
