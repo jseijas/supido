@@ -32,15 +32,27 @@ namespace Supido.Service.Contracts
 
         public bool IsQuery { get; set; }
 
+        public bool IsByParent { get; set; }
+
+        public string ParentKeyParameter { get; set; }
+
         public MessagePath(MessageInformation information)
         {
             this.Configuration = IoC.Get<IServiceConfiguration>();
             this.SecurityManager = IoC.Get<ISecurityManager>();
             this.Information = information;
-            this.Build();
+            this.Build(false);
         }
 
-        private void Build()
+        public MessagePath(MessageInformation information, bool forParent)
+        {
+            this.Configuration = IoC.Get<IServiceConfiguration>();
+            this.SecurityManager = IoC.Get<ISecurityManager>();
+            this.Information = information;
+            this.Build(forParent);
+        }
+
+        private void Build(bool forParent)
         {
             if (this.Information.PathTokens[this.Information.PathTokens.Count-1].ToLower().Equals("query")) 
             {
@@ -54,6 +66,10 @@ namespace Supido.Service.Contracts
             IList<string> paths = new List<string>();
             IList<string> values = new List<string>();
             int max = this.IsQuery ? this.Information.PathTokens.Count - 1 : this.Information.PathTokens.Count;
+            if (forParent)
+            {
+                max = max - 1;
+            }
             this.HasKeyParameter = max % 2 == 0;
             Type entityType = null;
             for (int i = 0; i < max; i++)
@@ -89,6 +105,16 @@ namespace Supido.Service.Contracts
                 this.KeyParameter = string.Empty;
             }
             this.CurrentNode = node;
+            if (!string.IsNullOrEmpty(node.ParentParameterName))
+            {
+                this.IsByParent = true;
+                this.ParentKeyParameter = node.ParentParameterName;
+            }
+            else
+            {
+                this.IsByParent = false;
+                this.ParentKeyParameter = string.Empty;
+            }
             this.EntityType = entityType;
             this.DtoType = node.DtoType;
             max = this.HasKeyParameter ? paths.Count-1 : paths.Count;
@@ -101,7 +127,6 @@ namespace Supido.Service.Contracts
             {
                 this.QueryInfo.Equal(paths[i], values[i]);
             }
-
         }
 
     }

@@ -5,7 +5,9 @@
     <api path="client">
       <api path="project">
         <api path="service">
-          <api path="task"></api>
+          <api path="task">
+            <api path="taskType" byparent="TaskTypeId"></api>
+          </api>
         </api>
       </api>
     </api>

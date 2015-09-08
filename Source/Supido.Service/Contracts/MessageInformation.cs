@@ -20,7 +20,7 @@ namespace Supido.Service.Contracts
         /// <value>
         /// The message.
         /// </value>
-        public Message Message { get; private set; }
+        public Message Message { get; set; }
 
         /// <summary>
         /// Gets or sets the absolute URI.

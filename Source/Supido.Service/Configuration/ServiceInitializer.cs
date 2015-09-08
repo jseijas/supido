@@ -147,7 +147,7 @@ namespace Supido.Service.Configuration
                 {
                     parameterName = GetParameterName(attributes.AsString("path"), dtoType);
                 }
-                ApiNode childnode = apinode.AddNode(attributes.AsString("path"), dtoType, parameterName);
+                ApiNode childnode = apinode.AddNode(attributes.AsString("path"), dtoType, parameterName, attributes.AsString("byparent"));
                 foreach (XmlNode subnode in node.SelectNodes("api"))
                 {
                     ConfigureApi(subnode, childnode);
@@ -171,7 +171,7 @@ namespace Supido.Service.Configuration
                 {
                     parameterName = GetParameterName(attributes.AsString("path"), dtoType);
                 }
-                ApiNode childnode = configuration.AddNode(attributes.AsString("path"), dtoType, parameterName);
+                ApiNode childnode = configuration.AddNode(attributes.AsString("path"), dtoType, parameterName, attributes.AsString("byparent"));
                 foreach (XmlNode subnode in node.SelectNodes("api"))
                 {
                     ConfigureApi(subnode, childnode);

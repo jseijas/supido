@@ -35,6 +35,14 @@ namespace Supido.Service.Configuration
         public string ParameterName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the parent parameter.
+        /// </summary>
+        /// <value>
+        /// The name of the parent parameter.
+        /// </value>
+        public string ParentParameterName { get; set; }
+
+        /// <summary>
         /// Gets or sets the path.
         /// </summary>
         /// <value>
@@ -61,12 +69,13 @@ namespace Supido.Service.Configuration
         /// <param name="path">The path.</param>
         /// <param name="dtoType">Type of the dto.</param>
         /// <param name="parameterName">Name of the parameter.</param>
-        public ApiNode(ApiNode parent, string path, Type dtoType, string parameterName)
+        public ApiNode(ApiNode parent, string path, Type dtoType, string parameterName, string parentParameterName)
         {
             this.Parent = parent;
             this.Path = path;
             this.DtoType = dtoType;
             this.ParameterName = parameterName;
+            this.ParentParameterName = parentParameterName;
             this.Sons = new Dictionary<string, ApiNode>();
         }
 
@@ -93,9 +102,9 @@ namespace Supido.Service.Configuration
         /// <param name="dtoType">Type of the dto.</param>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <returns></returns>
-        public ApiNode AddNode(string path, Type dtoType, string parameterName)
+        public ApiNode AddNode(string path, Type dtoType, string parameterName, string parentParameterName)
         {
-            ApiNode result = new ApiNode(this, path, dtoType, parameterName);
+            ApiNode result = new ApiNode(this, path, dtoType, parameterName, parentParameterName);
             this.Sons.Add(result.Path.ToLower(), result);
             return result;
         }

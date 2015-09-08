@@ -1,6 +1,7 @@
 ﻿using Supido.Business;
 using Supido.Business.Query;
 using Supido.Core.Container;
+using Supido.Core.Proxy;
 using Supido.Service.Configuration;
 using Supido.Service.Contracts;
 using Supido.Service.Utils;
@@ -52,15 +53,34 @@ namespace Supido.Service.Contracts
                 string sessionToken = this.GetSessionToken(information);
                 MessagePath path = new MessagePath(information);
                 ISecurityManager securityManager = IoC.Get<ISecurityManager>();
-                dynamic bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
                 object response;
-                if (path.HasKeyParameter)
+                if (path.IsByParent)
                 {
-                    response = bo.GetOne(string.Empty, path.QueryInfo);
+                    MessagePath parentPath = new MessagePath(information, true);
+                    if (!parentPath.HasKeyParameter)
+                    {
+                        throw new ArgumentException("A link to a parent must have parameter key");
+                    }
+                    dynamic bo = securityManager.DynamicGetBO(parentPath.DtoType, sessionToken);
+                    object parent = bo.GetOne(string.Empty, parentPath.QueryInfo);
+                    IObjectProxy proxy = ObjectProxyFactory.Get(parent);
+                    object value = proxy.GetValue(parent, path.ParentKeyParameter);
+                    QueryInfo query = new QueryInfo();
+                    query.Equal(path.ParentKeyParameter, value.ToString());
+                    bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
+                    response = bo.GetOne(string.Empty, query);
                 }
                 else
                 {
-                    response = bo.GetAll(path.QueryInfo);
+                    dynamic bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
+                    if (path.HasKeyParameter)
+                    {
+                        response = bo.GetOne(string.Empty, path.QueryInfo);
+                    }
+                    else
+                    {
+                        response = bo.GetAll(path.QueryInfo);
+                    }
                 }
                 return response.ToJsonMessage();
             }

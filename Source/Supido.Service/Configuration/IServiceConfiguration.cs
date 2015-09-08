@@ -37,7 +37,7 @@ namespace Supido.Service.Configuration
 
         #region - Methods -
 
-        ApiNode AddNode(string path, Type dtoType, string parameterName);
+        ApiNode AddNode(string path, Type dtoType, string parameterName, string parentParameterName);
 
         #endregion
     }
