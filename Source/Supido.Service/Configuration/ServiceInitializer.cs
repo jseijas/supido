@@ -2,7 +2,6 @@
 using Supido.Business.Meta;
 using Supido.Business.Session;
 using Supido.Core.Container;
-using Supido.Core.Proxy;
 using Supido.Core.Types;
 using Supido.Core.Utils;
 using Supido.Service.Contracts;
@@ -10,47 +9,30 @@ using Supido.Service.Cors;
 using Supido.Service.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.ServiceModel.Activation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 using System.Xml;
 
 namespace Supido.Service.Configuration
 {
+    /// <summary>
+    /// Class for the service initializer.
+    /// </summary>
     public static class ServiceInitializer
     {
+        #region - Methods -
 
-        public static void AddProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
-        {
-            const MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.HideBySig;
+        #region - Private Static Methods -
 
-            FieldBuilder field = typeBuilder.DefineField("_" + propertyName, typeof(string), FieldAttributes.Private);
-            PropertyBuilder property = typeBuilder.DefineProperty(propertyName, PropertyAttributes.None, propertyType,
-                new[] { propertyType });
-
-            MethodBuilder getMethodBuilder = typeBuilder.DefineMethod("get_value", getSetAttr, propertyType,
-                Type.EmptyTypes);
-            ILGenerator getIl = getMethodBuilder.GetILGenerator();
-            getIl.Emit(OpCodes.Ldarg_0);
-            getIl.Emit(OpCodes.Ldfld, field);
-            getIl.Emit(OpCodes.Ret);
-
-            MethodBuilder setMethodBuilder = typeBuilder.DefineMethod("set_value", getSetAttr, null,
-                new[] { propertyType });
-            ILGenerator setIl = setMethodBuilder.GetILGenerator();
-            setIl.Emit(OpCodes.Ldarg_0);
-            setIl.Emit(OpCodes.Ldarg_1);
-            setIl.Emit(OpCodes.Stfld, field);
-            setIl.Emit(OpCodes.Ret);
-
-            property.SetGetMethod(getMethodBuilder);
-            property.SetSetMethod(setMethodBuilder);
-        }
-
+        /// <summary>
+        /// Try to get the DTO type from the parameters. If the DTO is not found, but an entity type is found, then clone the entity type to create a new DTO type..
+        /// </summary>
+        /// <param name="dtoTypeName">Name of the dto type.</param>
+        /// <param name="dtoName">Name of the dto.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="entityName">Name of the entity.</param>
+        /// <param name="entityTypeName">Name of the entity type.</param>
+        /// <returns></returns>
         private static Type GetDtoType(string dtoTypeName, string dtoName, string path, string entityName, string entityTypeName)
         {
             Type result = null;
@@ -110,56 +92,62 @@ namespace Supido.Service.Configuration
 
                 }
             }
+            // If not found in own metamodel, because is not loaded into the system... but we can get the entity type by name from the telerik metamodel?
+            if ((entityType == null) && (!string.IsNullOrEmpty(entityName)))
+            {
+                entityType = securityManager.Scanner.FindEntityTypeInMetamodel(entityName);
+            }
+            if ((entityType == null) && (!string.IsNullOrEmpty(path)))
+            {
+                entityType = securityManager.Scanner.FindEntityTypeInMetamodel(path);
+            }
             if (entityType == null)
             {
                 return null;
             }
-            // Let's create a new type? OMG!
-            string assname = "Supido.Business.DTO";
-            AssemblyName assemblyName = new AssemblyName(assname);
-
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            ModuleBuilder module = assemblyBuilder.DefineDynamicModule("tmpModule");
-            TypeBuilder typeBuilder = module.DefineType("BindableRowCellCollection", TypeAttributes.Public | TypeAttributes.Class);
-            IObjectProxy entityProxy = ObjectProxyFactory.GetByType(entityType);
-            foreach (PropertyInfo propertyInfo in entityProxy.Properties)
-            {
-                if (TypesManager.IsCommonType(propertyInfo.PropertyType))
-                {
-                    AddProperty(typeBuilder, propertyInfo.Name, propertyInfo.PropertyType);
-                }
-            }
-            result = typeBuilder.CreateType();
-            IoC.Get<ISecurityManager>().Scanner.ProcessDynamicDto(result, entityType);
-
-            
-            
-            //AppDomain appdomain = AppDomain.CreateDomain("SupidoDynamicTypes", null, new AppDomainSetup { ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase });
-            //appdomain.DoCallBack(() =>
-            //{
-            //    AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(assname), AssemblyBuilderAccess.Run);
-            //    ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule("SupidoDynamicModule");
-            //    TypeBuilder typeBuilder = moduleBuilder.DefineType(entityType.Name + "Dto", TypeAttributes.Public | TypeAttributes.Serializable | TypeAttributes.Class);
-            //    IObjectProxy entityProxy = ObjectProxyFactory.GetByType(entityType);
-            //    foreach (PropertyInfo propertyInfo in entityProxy.Properties)
-            //    {
-            //        AddProperty(typeBuilder, propertyInfo.Name, propertyInfo.PropertyType);
-            //    }
-            //    result = typeBuilder.CreateType();
-            //    IoC.Get<ISecurityManager>().Scanner.ProcessDynamicDto(result, entityType);
-            //});
+            result = TypeBuilderHelper.CloneCommonType(entityType, AppDomain.CurrentDomain, "Supido.Business.Dto", "SupidoDynamicModule", entityType.Name + "Dto");
+            securityManager.Scanner.ProcessDynamicDto(result, entityType);
             return result;
         }
 
+        /// <summary>
+        /// Given a type of a DTO and the service path, gets the parameter name.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="dtoType">Type of the dto.</param>
+        /// <returns></returns>
+        private static string GetParameterName(string path, Type dtoType)
+        {
+            ISecurityManager securityManager = IoC.Get<ISecurityManager>();
+            IMetamodelEntity metamodelEntity = securityManager.MetamodelManager.GetEntityByDto(dtoType);
+            if (metamodelEntity != null)
+            {
+                IList<IMetamodelField> fields = metamodelEntity.GetPkFields();
+                if (fields.Count == 1)
+                {
+                    return fields[0].Name;
+                }
+            }
+            return path + "Pk";
+        }
 
-
+        /// <summary>
+        /// Configures the API from a child node.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="apinode">The apinode.</param>
         private static void ConfigureApi(XmlNode node, ApiNode apinode)
         {
             NodeAttributes attributes = new NodeAttributes(node);
             Type dtoType = GetDtoType(attributes.AsString("dtoType"), attributes.AsString("dtoName"), attributes.AsString("path"), attributes.AsString("entityName"), attributes.AsString("entityType"));
             if (dtoType != null)
             {
-                ApiNode childnode = apinode.AddNode(attributes.AsString("path"), dtoType, attributes.AsString("parameterName"));
+                string parameterName = attributes.AsString("parameterName");
+                if (string.IsNullOrEmpty(parameterName))
+                {
+                    parameterName = GetParameterName(attributes.AsString("path"), dtoType);
+                }
+                ApiNode childnode = apinode.AddNode(attributes.AsString("path"), dtoType, parameterName);
                 foreach (XmlNode subnode in node.SelectNodes("api"))
                 {
                     ConfigureApi(subnode, childnode);
@@ -167,13 +155,23 @@ namespace Supido.Service.Configuration
             }
         }
 
+        /// <summary>
+        /// Configures the API from a root node.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="configuration">The configuration.</param>
         private static void ConfigureApi(XmlNode node, IServiceConfiguration configuration)
         {
             NodeAttributes attributes = new NodeAttributes(node);
             Type dtoType = GetDtoType(attributes.AsString("dtoType"), attributes.AsString("dtoName"), attributes.AsString("path"), attributes.AsString("entityName"), attributes.AsString("entityType"));
             if (dtoType != null)
             {
-                ApiNode childnode = configuration.AddNode(attributes.AsString("path"), dtoType, attributes.AsString("parameterName"));
+                string parameterName = attributes.AsString("parameterName");
+                if (string.IsNullOrEmpty(parameterName))
+                {
+                    parameterName = GetParameterName(attributes.AsString("path"), dtoType);
+                }
+                ApiNode childnode = configuration.AddNode(attributes.AsString("path"), dtoType, parameterName);
                 foreach (XmlNode subnode in node.SelectNodes("api"))
                 {
                     ConfigureApi(subnode, childnode);
@@ -181,6 +179,10 @@ namespace Supido.Service.Configuration
             }
         }
 
+        /// <summary>
+        /// Configures the security manager.
+        /// </summary>
+        /// <param name="document">The document.</param>
         private static void ConfigureSecurityManager(XmlDocument document)
         {
             ISecurityManager securityManager = null;
@@ -204,6 +206,10 @@ namespace Supido.Service.Configuration
             }
         }
 
+        /// <summary>
+        /// Configures the service.
+        /// </summary>
+        /// <param name="document">The document.</param>
         private static void ConfigureService(XmlDocument document)
         {
             ISecurityManager securityManager = IoC.Get<ISecurityManager>();
@@ -222,6 +228,9 @@ namespace Supido.Service.Configuration
             }
         }
 
+        /// <summary>
+        /// Discovers the services.
+        /// </summary>
         private static void DiscoverServices()
         {
             IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
@@ -240,6 +249,14 @@ namespace Supido.Service.Configuration
             }
         }
 
+        #endregion
+
+        #region - Public Static Methods -
+
+        /// <summary>
+        /// Run the scanning for services, initializing from an xml with the information of the service API.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
         public static void Initialize(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -258,5 +275,9 @@ namespace Supido.Service.Configuration
             }
             DiscoverServices();
         }
+
+        #endregion
+
+        #endregion
     }
 }

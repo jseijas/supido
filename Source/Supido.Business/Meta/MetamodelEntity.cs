@@ -313,6 +313,23 @@ namespace Supido.Business.Meta
             }
         }
 
+        /// <summary>
+        /// Gets the fields that are primary key.
+        /// </summary>
+        /// <returns></returns>
+        public IList<IMetamodelField> GetPkFields()
+        {
+            IList<IMetamodelField> result = new List<IMetamodelField>();
+            foreach (IMetamodelField field in this.Fields)
+            {
+                if (field.IsPrimaryKey)
+                {
+                    result.Add(field);
+                }
+            }
+            return result;
+        }
+
         #endregion
     }
 }

@@ -113,6 +113,12 @@ namespace Supido.Business.Meta
         /// <param name="dtoType">Type of the dto.</param>
         void AddDto(Type dtoType);
 
+        /// <summary>
+        /// Gets the fields that are primary key.
+        /// </summary>
+        /// <returns></returns>
+        IList<IMetamodelField> GetPkFields();
+
         #endregion
     }
 }

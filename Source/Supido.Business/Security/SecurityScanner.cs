@@ -121,7 +121,7 @@ namespace Supido.Business.Security
                 this.typeMetatables.Clear();
                 foreach (KeyValuePair<string, MetaPersistentType> kvp in this.metatables)
                 {
-                    this.typeMetatables.Add(this.GetClassName(kvp.Key), kvp.Value);
+                    this.typeMetatables.Add(this.GetClassName(kvp.Key).ToLower(), kvp.Value);
                 }
             }
         }
@@ -292,9 +292,9 @@ namespace Supido.Business.Security
                     entityType = TypesManager.ResolveType(entityName);
                     if (entityType == null) 
                     {
-                        if (this.typeMetatables.ContainsKey(entityName))
+                        if (this.typeMetatables.ContainsKey(entityName.ToLower()))
                         {
-                            entityName = this.typeMetatables[entityName].FullName;
+                            entityName = this.typeMetatables[entityName.ToLower()].FullName;
                             entityType = TypesManager.ResolveType(entityName);
                         }
                     }
@@ -512,6 +512,21 @@ namespace Supido.Business.Security
                     this.Scan(namespacesStr.Trim());
                 }
             }
+        }
+
+        /// <summary>
+        /// Finds the entity type given the entity name in the telerik metamodel.
+        /// </summary>
+        /// <param name="entityName">Name of the entity.</param>
+        /// <returns></returns>
+        public Type FindEntityTypeInMetamodel(string entityName)
+        {
+            if (this.typeMetatables.ContainsKey(entityName.ToLower()))
+            {
+                string fullName = this.typeMetatables[entityName.ToLower()].FullName;
+                return TypesManager.ResolveType(fullName);
+            }
+            return null;
         }
 
         #endregion
