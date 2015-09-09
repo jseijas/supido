@@ -26,6 +26,38 @@ namespace Supido.Service.Configuration
         bool IsCors { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this instance is HATEOAS.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is HATEOAS; otherwise, <c>false</c>.
+        /// </value>
+        bool IsHateoas { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is camel case.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is camel case; otherwise, <c>false</c>.
+        /// </value>
+        bool IsCamelCase { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether [include nulls].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [include nulls]; otherwise, <c>false</c>.
+        /// </value>
+        bool IncludeNulls { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="IServiceConfiguration"/> is indented.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if indented; otherwise, <c>false</c>.
+        /// </value>
+        bool Indented { get; }
+
+        /// <summary>
         /// Gets the root.
         /// </summary>
         /// <value>

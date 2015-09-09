@@ -1,4 +1,6 @@
-﻿using Supido.Business;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Supido.Business;
 using Supido.Business.Query;
 using Supido.Core.Container;
 using Supido.Core.Proxy;
@@ -82,7 +84,44 @@ namespace Supido.Service.Contracts
                         response = bo.GetAll(path.QueryInfo);
                     }
                 }
-                return response.ToJsonMessage();
+                IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
+                JsonSerializerSettings settings = IoC.Get<JsonSerializerSettings>();
+                if (configuration.IsHateoas)
+                {
+                    JsonSerializer serializer = IoC.Get<JsonSerializer>();
+                    // The links getter must be in the MessagePath, so has access to the ApiNode
+                    // Method:
+                    // 1. Every object/list has access to self
+                    // 2. Every object/list has access to parent if parent <> null
+                    // 3. If is a list, for every element add a "uri" to the getOne
+                    // 4. If is an object, for each son api node add the link of the son. Take care of the byparent!!!!!                   
+                    IList<HateoasLink> links = new List<HateoasLink>();
+                    links.Add(new HateoasLink("self", information.AbsoluteUri));
+                    if (path.HasKeyParameter)
+                    {
+                        JObject jobject = JObject.FromObject(response, serializer);
+                        JArray jarray = JArray.FromObject(links, serializer);
+                        if (configuration.IsCamelCase)
+                        {
+                            jobject.Add("links", jarray);
+                        }
+                        else
+                        {
+                            jobject.Add("Links", jarray);
+                        }
+                        response = jobject;
+                    }
+                    else
+                    {
+                        HateoasReponse hateoasResponse = new HateoasReponse();
+                        hateoasResponse.Items = response;
+                        hateoasResponse.Links = links;
+                        JObject jobject = JObject.FromObject(hateoasResponse, serializer);
+                        response = jobject;
+                    }
+
+                }
+                return response.ToJsonMessage(settings, configuration.Indented);
             }
             catch (Exception ex)
             {

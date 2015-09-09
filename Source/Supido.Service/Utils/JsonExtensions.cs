@@ -23,6 +23,13 @@ namespace Supido.Service.Utils
             return WebOperationContext.Current.CreateTextResponse(JsonConvert.SerializeObject(obj), "application/json; charset=utf-8", Encoding.UTF8);
         }
 
+        public static Message ToJsonMessage(this object obj, JsonSerializerSettings settings, bool indented)
+        {
+            Formatting formatting = indented ? Formatting.Indented : Formatting.None;
+            return WebOperationContext.Current.CreateTextResponse(JsonConvert.SerializeObject(obj, formatting, settings));
+        }
+
+
         /// <summary>
         /// Deserializes from Json string
         /// </summary>

@@ -52,6 +52,9 @@
     <Compile Include="Configuration\IServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\ServiceInitializer.cs" />
+    <Compile Include="Contracts\HateoasLink.cs" />
+    <Compile Include="Contracts\HateoasList.cs" />
+    <Compile Include="Contracts\HateoasReponse.cs" />
     <Compile Include="Contracts\IRestService.cs" />
     <Compile Include="Contracts\MessagePath.cs" />
     <Compile Include="Cors\CorsConstants.cs" />
