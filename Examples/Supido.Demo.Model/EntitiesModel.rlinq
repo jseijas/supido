@@ -38,6 +38,9 @@
         <orm:field name="sessions" property="Sessions" behavior="readwrite" uniqueId="154c8051-14f8-4dee-aefa-10fb32f37b4f" type="Supido.Demo.Model.Session">
           <orm:collection element-class="Supido.Demo.Model.Session" inverse-field="user" order-by="" uniqueId="361789b4-e7bd-4604-80e6-a5404deb8eb0" />
         </orm:field>
+        <orm:field name="auditTransacs" property="AuditTransacs" behavior="readwrite" uniqueId="5799d31f-3ef1-4e50-aeec-f8cf45fce72c" type="Supido.Demo.Model.AuditTransac">
+          <orm:collection element-class="Supido.Demo.Model.AuditTransac" inverse-field="user" order-by="" uniqueId="757c4573-7411-4452-91a8-0ff4231b2143" />
+        </orm:field>
       </orm:class>
       <orm:class name="TaskType" uniqueId="d5b03a8a-f6d6-43af-8841-4884b9ebe9bc">
         <orm:table name="TaskType" />
@@ -147,14 +150,14 @@
         <orm:field name="name" property="Name" behavior="readwrite" uniqueId="2a999905-ad16-4278-8cf4-de29f2d66ac4" type="System.String">
           <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
         </orm:field>
-        <orm:field name="tasks" property="Tasks" behavior="readwrite" uniqueId="372e81db-40e5-4881-98fb-8bb759625a9c" type="Supido.Demo.Model.Task">
-          <orm:collection element-class="Supido.Demo.Model.Task" inverse-field="service" order-by="" uniqueId="a8f4bc0b-3659-41cd-86c1-6e795b0c350b" />
-        </orm:field>
         <orm:field name="project" property="Project" behavior="readwrite" uniqueId="c8d48c05-7d01-44b8-86f0-d6d9995b7701" type="Supido.Demo.Model.Project">
           <orm:reference uniqueId="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" association-name="ServiceHasProject">
             <orm:sharedfield name="projectId" target-class="Supido.Demo.Model.Project" target-field="projectId" />
             <orm:constraint name="FK_Service_Project" delete-action="dbdefaultrule" destination-table="Project" />
           </orm:reference>
+        </orm:field>
+        <orm:field name="tasks" property="Tasks" behavior="readwrite" uniqueId="372e81db-40e5-4881-98fb-8bb759625a9c" type="Supido.Demo.Model.Task">
+          <orm:collection element-class="Supido.Demo.Model.Task" inverse-field="service" order-by="" uniqueId="a8f4bc0b-3659-41cd-86c1-6e795b0c350b" />
         </orm:field>
       </orm:class>
       <orm:class name="Project" uniqueId="09174805-a6da-4d8b-b91a-58874d8e477c">
@@ -175,14 +178,14 @@
         <orm:field name="name" property="Name" behavior="readwrite" uniqueId="6aaae0ec-cff2-4731-9944-da3ecd9d342d" type="System.String">
           <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
         </orm:field>
-        <orm:field name="services" property="Services" behavior="readwrite" uniqueId="249cf31d-293a-417e-be66-89bfda738584" type="Supido.Demo.Model.Service">
-          <orm:collection element-class="Supido.Demo.Model.Service" inverse-field="project" order-by="" uniqueId="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" />
-        </orm:field>
         <orm:field name="client" property="Client" behavior="readwrite" uniqueId="bc17018a-0f66-4639-81b1-965963ddc8ac" type="Supido.Demo.Model.Client">
           <orm:reference uniqueId="7e1b963b-33df-42d2-9a4e-2ad6ed7dff11" association-name="ProjectHasClient">
             <orm:sharedfield name="clientId" target-class="Supido.Demo.Model.Client" target-field="clientId" />
             <orm:constraint name="FK_Project_Client" delete-action="dbdefaultrule" destination-table="Client" />
           </orm:reference>
+        </orm:field>
+        <orm:field name="services" property="Services" behavior="readwrite" uniqueId="249cf31d-293a-417e-be66-89bfda738584" type="Supido.Demo.Model.Service">
+          <orm:collection element-class="Supido.Demo.Model.Service" inverse-field="project" order-by="" uniqueId="1074e05b-b8e2-4efb-a3ff-54a60b94dcca" />
         </orm:field>
       </orm:class>
       <orm:class name="Department" uniqueId="d5266a9d-426d-4520-93d7-b3417b6c9396">
@@ -221,6 +224,99 @@
         </orm:field>
         <orm:field name="projects" property="Projects" behavior="readwrite" uniqueId="750e782a-1792-425e-8b40-cb285ab632bc" type="Supido.Demo.Model.Project">
           <orm:collection element-class="Supido.Demo.Model.Project" inverse-field="client" order-by="" uniqueId="7e1b963b-33df-42d2-9a4e-2ad6ed7dff11" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="MetaEntity" uniqueId="d66242f2-96ab-42fa-be35-77d1862d1b59">
+        <orm:table name="MetaEntity" />
+        <orm:identity>
+          <orm:single-field field-name="entityId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="entityId" property="EntityId" behavior="readwrite" uniqueId="ebabe5f6-2529-40cb-89f8-e8137d14eadd" type="System.Int32">
+          <orm:column name="entity_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="name" property="Name" behavior="readwrite" uniqueId="3f158156-856b-4b6a-b315-00807563dd97" type="System.String">
+          <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="auditMode" property="AuditMode" behavior="readwrite" uniqueId="60889d57-acb4-4c2b-846d-9f9a8ec3780a" type="System.String">
+          <orm:column name="audit_mode" sql-type="nvarchar" nullable="false" length="6" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="auditTransacActions" property="AuditTransacActions" behavior="readwrite" uniqueId="707bf15a-37f2-4bec-a411-861091219a6b" type="Supido.Demo.Model.AuditTransacAction">
+          <orm:collection element-class="Supido.Demo.Model.AuditTransacAction" inverse-field="metaEntity" order-by="" uniqueId="2065e68d-1676-4c88-8fb1-b2e435491111" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="AuditTransacAction" uniqueId="6850f2ca-4c3a-44b5-ba8f-05aebfc65109">
+        <orm:table name="AuditTransacAction" />
+        <orm:identity>
+          <orm:multiple-field>
+            <orm:single-field field-name="auditTransacId" />
+            <orm:single-field field-name="auditTransacActionIx" />
+          </orm:multiple-field>
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="auditTransacId" property="AuditTransacId" behavior="readwrite" uniqueId="ffbdba09-b8ef-4479-911b-a36f69fb492b" type="System.Int64">
+          <orm:column name="audit_transac_id" sql-type="numeric" nullable="false" length="18" scale="0" primary-key="true" ado-type="Numeric" />
+        </orm:field>
+        <orm:field name="auditTransacActionIx" property="AuditTransacActionIx" behavior="readwrite" uniqueId="307e70aa-eda2-4b26-aff1-122a4fc2da2b" type="System.Int32">
+          <orm:column name="audit_transac_action_ix" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="entityId" property="EntityId" behavior="readwrite" uniqueId="fb03b9f4-70b2-4f74-b5dc-c14e028da6f2" type="System.Int32">
+          <orm:column name="entity_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="actionType" property="ActionType" behavior="readwrite" uniqueId="a208bf12-fed3-465c-bbfa-8fb0756d34f6" type="System.Char">
+          <orm:column name="action_type" sql-type="nvarchar" nullable="false" length="1" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="primaryKey" property="PrimaryKey" behavior="readwrite" uniqueId="93c04178-ec23-4127-b705-b99ad7c502d8" type="System.String">
+          <orm:column name="primary_key" sql-type="nvarchar" nullable="false" length="200" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="srcObject" property="SrcObject" behavior="readwrite" uniqueId="8915a625-21ad-4d2d-9152-71dd211fcf3a" type="System.String">
+          <orm:column name="src_object" sql-type="nvarchar(max)" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        </orm:field>
+        <orm:field name="tgtObject" property="TgtObject" behavior="readwrite" uniqueId="a57b7bac-aa2a-4355-97af-79d413ea4637" type="System.String">
+          <orm:column name="tgt_object" sql-type="nvarchar(max)" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        </orm:field>
+        <orm:field name="metaEntity" property="MetaEntity" behavior="readwrite" uniqueId="1b8af88a-5160-4aa0-86b5-d2cd8129487c" type="Supido.Demo.Model.MetaEntity">
+          <orm:reference uniqueId="2065e68d-1676-4c88-8fb1-b2e435491111" association-name="AuditTransacActionHasMetaEntity">
+            <orm:sharedfield name="entityId" target-class="Supido.Demo.Model.MetaEntity" target-field="entityId" />
+            <orm:constraint name="FK_AuditTransacAction_MetaEntity" delete-action="dbdefaultrule" destination-table="MetaEntity" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="auditTransac" property="AuditTransac" behavior="readwrite" uniqueId="a25c6b43-e423-4599-9503-da3b0abe0cb3" type="Supido.Demo.Model.AuditTransac">
+          <orm:reference uniqueId="0024d8cb-94b3-4764-8fc7-dcba96559ba7" association-name="AuditTransacActionHasAuditTransac">
+            <orm:sharedfield name="auditTransacId" target-class="Supido.Demo.Model.AuditTransac" target-field="auditTransacId" />
+            <orm:constraint name="FK_AuditTransacAction_AuditTransac" delete-action="dbdefaultrule" destination-table="AuditTransac" />
+          </orm:reference>
+        </orm:field>
+      </orm:class>
+      <orm:class name="AuditTransac" uniqueId="46b17169-c5fb-443b-ba9c-81b9418ccc98">
+        <orm:table name="AuditTransac" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="AuditTransacId" />
+          </orm:key-generator>
+          <orm:single-field field-name="auditTransacId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="auditTransacId" property="AuditTransacId" behavior="readwrite" uniqueId="3ada411e-db5b-4796-92dd-ed74608dcbd9" type="System.Int64">
+          <orm:column name="audit_transac_id" sql-type="numeric" nullable="false" length="18" scale="0" primary-key="true" backend-calculated="true" ado-type="Numeric" />
+        </orm:field>
+        <orm:field name="userId" property="UserId" behavior="readwrite" uniqueId="8683ebb2-0911-4720-a5dd-5db272b5ec6a" type="System.Int32">
+          <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="startDttm" property="StartDttm" behavior="readwrite" uniqueId="1845d5a4-88d7-4499-9eb0-70a8172aa4e0" type="System.DateTime">
+          <orm:column name="start_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="endDttm" property="EndDttm" behavior="readwrite" uniqueId="91fd9247-82b2-4d98-8adf-291f69927d55" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="end_dttm" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="auditTransacActions" property="AuditTransacActions" behavior="readwrite" uniqueId="ec2dbd61-ef08-44cf-bcbd-0e6c1dc29682" type="Supido.Demo.Model.AuditTransacAction">
+          <orm:collection element-class="Supido.Demo.Model.AuditTransacAction" inverse-field="auditTransac" order-by="" uniqueId="0024d8cb-94b3-4764-8fc7-dcba96559ba7" />
+        </orm:field>
+        <orm:field name="user" property="User" behavior="readwrite" uniqueId="b8ac50b1-e503-4968-b0f3-1946e06eef52" type="Supido.Demo.Model.User">
+          <orm:reference uniqueId="757c4573-7411-4452-91a8-0ff4231b2143" association-name="AuditTransacHasUser">
+            <orm:sharedfield name="userId" target-class="Supido.Demo.Model.User" target-field="userId" />
+            <orm:constraint name="FK_AuditTransac_User" delete-action="dbdefaultrule" destination-table="User" />
+          </orm:reference>
         </orm:field>
       </orm:class>
     </orm:namespace>
@@ -289,6 +385,35 @@
         <orm:column name="client_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
         <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
       </orm:table>
+      <orm:table name="MetaEntity">
+        <orm:column name="entity_id" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" ado-type="Int32" />
+        <orm:column name="name" sql-type="nvarchar" nullable="false" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="audit_mode" sql-type="nvarchar" nullable="false" length="6" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+      <orm:table name="AuditTransacAction">
+        <orm:column name="audit_transac_id" sql-type="numeric" nullable="false" length="18" scale="0" primary-key="true" ado-type="Numeric" />
+        <orm:column name="audit_transac_action_ix" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" ado-type="Int32" />
+        <orm:column name="entity_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="action_type" sql-type="nvarchar" nullable="false" length="1" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="primary_key" sql-type="nvarchar" nullable="false" length="200" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="src_object" sql-type="nvarchar(max)" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        <orm:column name="tgt_object" sql-type="nvarchar(max)" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        <orm:constraint name="FK_AuditTransacAction_MetaEntity" delete-action="dbdefaultrule" destination-table="MetaEntity">
+          <orm:column name="entity_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="FK_AuditTransacAction_AuditTransac" delete-action="dbdefaultrule" destination-table="AuditTransac">
+          <orm:column name="audit_transac_id" sql-type="numeric" nullable="false" length="18" scale="0" primary-key="true" ado-type="Numeric" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="AuditTransac">
+        <orm:column name="audit_transac_id" sql-type="numeric" nullable="false" length="18" scale="0" primary-key="true" backend-calculated="true" ado-type="Numeric" />
+        <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="start_dttm" sql-type="datetime" nullable="false" length="0" scale="0" ado-type="DateTime" />
+        <orm:column name="end_dttm" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        <orm:constraint name="FK_AuditTransac_User" delete-action="dbdefaultrule" destination-table="User">
+          <orm:column name="user_id" sql-type="int" nullable="false" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
     </orm:schema>
     <orm:relational-naming-settings>
       <orm:source-strategy>Property</orm:source-strategy>
@@ -297,7 +422,7 @@
   </orm:orm>
   <ModelSettings xmlns="">
     <AppConfigConnectionPropertyName>Supido_exampleConnection</AppConfigConnectionPropertyName>
-    <AppConfigConnectionString>Data Source=ISA-PC\SQLEXPRESS;Initial Catalog=supido_example;Integrated Security=True</AppConfigConnectionString>
+    <AppConfigConnectionString>data source=HAL\SQLEXPRESS;initial catalog=supido_example;integrated security=True</AppConfigConnectionString>
     <InitialCatalog>supido_example</InitialCatalog>
     <NamingSettings>
       <ClassRules>
@@ -360,6 +485,9 @@
         </classHasNavigationalProperties>
         <classHasNavigationalProperties Id="8ba3fb2d-b6d6-4c8e-b68c-f2cbfb782f5a">
           <NavigationalProperty Id="154c8051-14f8-4dee-aefa-10fb32f37b4f" name="Sessions" type="IList&lt;Session&gt;" label="Sessions : IList&lt;Session&gt;" nullable="true" kind="Persistent" fieldName="sessions" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="9739dd73-807d-4449-8ae9-8f63b8beb107">
+          <NavigationalProperty Id="5799d31f-3ef1-4e50-aeec-f8cf45fce72c" name="AuditTransacs" type="IList&lt;AuditTransac&gt;" label="AuditTransacs : IList&lt;AuditTransac&gt;" nullable="true" kind="Persistent" fieldName="auditTransacs" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
@@ -532,6 +660,90 @@
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
+    <DomainClass Id="d66242f2-96ab-42fa-be35-77d1862d1b59" name="MetaEntity" namespace="Supido.Demo.Model" showPropertiesCompartment="true" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="ebabe5f6-2529-40cb-89f8-e8137d14eadd" name="EntityId" type="Int32" label="EntityId : Int32" kind="Persistent" identity="true" fieldName="entityId" />
+      <Property Id="60889d57-acb4-4c2b-846d-9f9a8ec3780a" name="AuditMode" label="AuditMode : String" kind="Persistent" fieldName="auditMode" />
+      <Property Id="3f158156-856b-4b6a-b315-00807563dd97" name="Name" label="Name : String" kind="Persistent" fieldName="name" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="cb660942-20a8-46bb-972a-6eb55285a1cf">
+          <NavigationalProperty Id="707bf15a-37f2-4bec-a411-861091219a6b" name="AuditTransacActions" type="IList&lt;AuditTransacAction&gt;" label="AuditTransacActions : IList&lt;AuditTransacAction&gt;" nullable="true" kind="Persistent" fieldName="auditTransacActions" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="6850f2ca-4c3a-44b5-ba8f-05aebfc65109" name="AuditTransacAction" namespace="Supido.Demo.Model" showPropertiesCompartment="true" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="307e70aa-eda2-4b26-aff1-122a4fc2da2b" name="AuditTransacActionIx" type="Int32" label="AuditTransacActionIx : Int32" kind="Persistent" identity="true" fieldName="auditTransacActionIx" />
+      <Property Id="ffbdba09-b8ef-4479-911b-a36f69fb492b" name="AuditTransacId" type="Int64" label="AuditTransacId : Int64" kind="Persistent" identity="true" fieldName="auditTransacId" />
+      <Property Id="a208bf12-fed3-465c-bbfa-8fb0756d34f6" name="ActionType" type="Char" label="ActionType : Char" kind="Persistent" fieldName="actionType" />
+      <Property Id="fb03b9f4-70b2-4f74-b5dc-c14e028da6f2" name="EntityId" type="Int32" label="EntityId : Int32" kind="Persistent" fieldName="entityId" />
+      <Property Id="93c04178-ec23-4127-b705-b99ad7c502d8" name="PrimaryKey" label="PrimaryKey : String" kind="Persistent" fieldName="primaryKey" />
+      <Property Id="8915a625-21ad-4d2d-9152-71dd211fcf3a" name="SrcObject" label="SrcObject : String" kind="Persistent" fieldName="srcObject" />
+      <Property Id="a57b7bac-aa2a-4355-97af-79d413ea4637" name="TgtObject" label="TgtObject : String" kind="Persistent" fieldName="tgtObject" />
+      <AssociationTargets>
+        <Association Id="2065e68d-1676-4c88-8fb1-b2e435491111" SourceMultiplicity="One" name="AuditTransacActionHasMetaEntity">
+          <DomainClassMoniker name="/EntitiesModel/MetaEntity" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="250e49ce-de78-410e-80f9-a587f309dd27">
+              <NavigationalPropertyMoniker name="/EntitiesModel/MetaEntity/AuditTransacActions" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="f7bd2435-06ed-4747-8d19-1caf862cc80c">
+              <NavigationalPropertyMoniker name="/EntitiesModel/AuditTransacAction/MetaEntity" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="0024d8cb-94b3-4764-8fc7-dcba96559ba7" SourceMultiplicity="One" name="AuditTransacActionHasAuditTransac">
+          <DomainClassMoniker name="/EntitiesModel/AuditTransac" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="d6e6b2e3-2191-45de-9648-0e0f0c9e331d">
+              <NavigationalPropertyMoniker name="/EntitiesModel/AuditTransac/AuditTransacActions" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="5046b523-6c3e-4d98-bb22-0d74228f0ec9">
+              <NavigationalPropertyMoniker name="/EntitiesModel/AuditTransacAction/AuditTransac" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="482a2ded-b2fd-408a-9f3d-00b660d427db">
+          <NavigationalProperty Id="1b8af88a-5160-4aa0-86b5-d2cd8129487c" name="MetaEntity" type="MetaEntity" label="MetaEntity : MetaEntity" nullable="true" kind="Persistent" fieldName="metaEntity" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="76617ce4-25a3-46dc-aeca-d7a90582212c">
+          <NavigationalProperty Id="a25c6b43-e423-4599-9503-da3b0abe0cb3" name="AuditTransac" type="AuditTransac" label="AuditTransac : AuditTransac" nullable="true" kind="Persistent" fieldName="auditTransac" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="46b17169-c5fb-443b-ba9c-81b9418ccc98" name="AuditTransac" namespace="Supido.Demo.Model" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="AuditTransacId">
+      <Property Id="3ada411e-db5b-4796-92dd-ed74608dcbd9" name="AuditTransacId" type="Int64" label="AuditTransacId : Int64" kind="Persistent" identity="true" fieldName="auditTransacId" />
+      <Property Id="91fd9247-82b2-4d98-8adf-291f69927d55" name="EndDttm" type="DateTime" label="EndDttm : DateTime" nullable="true" kind="Persistent" fieldName="endDttm" />
+      <Property Id="1845d5a4-88d7-4499-9eb0-70a8172aa4e0" name="StartDttm" type="DateTime" label="StartDttm : DateTime" kind="Persistent" fieldName="startDttm" />
+      <Property Id="8683ebb2-0911-4720-a5dd-5db272b5ec6a" name="UserId" type="Int32" label="UserId : Int32" kind="Persistent" fieldName="userId" />
+      <AssociationTargets>
+        <Association Id="757c4573-7411-4452-91a8-0ff4231b2143" SourceMultiplicity="One" name="AuditTransacHasUser">
+          <DomainClassMoniker name="/EntitiesModel/User" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="d4a23a21-5505-446c-a946-d74e8870507b">
+              <NavigationalPropertyMoniker name="/EntitiesModel/User/AuditTransacs" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="936a4718-a5f6-4b86-ac28-ddf50c94de8a">
+              <NavigationalPropertyMoniker name="/EntitiesModel/AuditTransac/User" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="e3c18dfa-1b8e-4994-b727-277aaad7bad8">
+          <NavigationalProperty Id="ec2dbd61-ef08-44cf-bcbd-0e6c1dc29682" name="AuditTransacActions" type="IList&lt;AuditTransacAction&gt;" label="AuditTransacActions : IList&lt;AuditTransacAction&gt;" nullable="true" kind="Persistent" fieldName="auditTransacActions" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="6aab3131-d2a2-4292-a83c-ce3d9bb43b1b">
+          <NavigationalProperty Id="b8ac50b1-e503-4968-b0f3-1946e06eef52" name="User" type="User" label="User : User" nullable="true" kind="Persistent" fieldName="user" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
   </Types>
   <domainContext>
     <domainModelHasDomainContext Id="c95243f3-68ce-47f3-b409-a3f1eb0a95e6">
@@ -544,6 +756,9 @@
         <entitySetProperty name="Projects" namespace="Supido.Demo.Model" type="Project" label="Projects : IQueryable&lt;Supido.Demo.Model.Project&gt;" />
         <entitySetProperty name="Departments" namespace="Supido.Demo.Model" type="Department" label="Departments : IQueryable&lt;Supido.Demo.Model.Department&gt;" />
         <entitySetProperty name="Clients" namespace="Supido.Demo.Model" type="Client" label="Clients : IQueryable&lt;Supido.Demo.Model.Client&gt;" />
+        <entitySetProperty name="MetaEntities" namespace="Supido.Demo.Model" type="MetaEntity" label="MetaEntities : IQueryable&lt;Supido.Demo.Model.MetaEntity&gt;" />
+        <entitySetProperty name="AuditTransacActions" namespace="Supido.Demo.Model" type="AuditTransacAction" label="AuditTransacActions : IQueryable&lt;Supido.Demo.Model.AuditTransacAction&gt;" />
+        <entitySetProperty name="AuditTransacs" namespace="Supido.Demo.Model" type="AuditTransac" label="AuditTransacs : IQueryable&lt;Supido.Demo.Model.AuditTransac&gt;" />
       </domainContainer>
     </domainModelHasDomainContext>
   </domainContext>

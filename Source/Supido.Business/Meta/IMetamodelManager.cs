@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Supido.Business.Audit;
+using System;
 
 namespace Supido.Business.Meta
 {
@@ -44,6 +45,11 @@ namespace Supido.Business.Meta
         /// <returns></returns>
         IMetamodelEntity GetEntityByName(string name);
 
+        /// <summary>
+        /// Gets the entity metamodel by the dto name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         IMetamodelEntity GetEntityByDtoName(string name);
 
         /// <summary>
@@ -53,6 +59,14 @@ namespace Supido.Business.Meta
         /// <param name="dtoType">Type of the dto.</param>
         /// <returns></returns>
         IMetamodelEntity RegisterEntity(Type entityType, Type dtoType);
+
+        /// <summary>
+        /// Sets the audit trail information for an entity.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="entId">The entity identifier.</param>
+        /// <param name="auditType">Type of the audit.</param>
+        void SetAudit(string name, int entId, AuditType auditType);
 
         #endregion
     }

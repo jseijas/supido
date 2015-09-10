@@ -1,4 +1,5 @@
-﻿using Supido.Business.BO;
+﻿using Supido.Business.Audit;
+using Supido.Business.BO;
 using Supido.Business.DTO;
 using Supido.Core.Container;
 using System;
@@ -29,6 +30,14 @@ namespace Supido.Business.Context
         /// </value>
         public IUserDto User { get; private set; }
 
+        /// <summary>
+        /// Gets the transaction.
+        /// </summary>
+        /// <value>
+        /// The transaction.
+        /// </value>
+        public TransacInfo Transaction { get; private set; }
+
         #endregion
 
         #region - Constructors -
@@ -39,6 +48,8 @@ namespace Supido.Business.Context
         /// <param name="user">The user.</param>
         public UserContext(IUserDto user)
         {
+            this.Context = null;
+            this.Transaction = null;
             this.User = user;
         }
 
@@ -55,8 +66,7 @@ namespace Supido.Business.Context
         {
             this.Close();
             this.Context = (OpenAccessContext)Activator.CreateInstance(IoC.Get<ISecurityManager>().ContextType);
-            // TODO: start transaction
-            //IoC.Get<ISecurityManager>().AuditManager.StartTransaction(this)
+            this.Transaction = IoC.Get<IAuditManager>().StartTransaction(this);
         }
 
         /// <summary>
@@ -68,6 +78,7 @@ namespace Supido.Business.Context
             {
                 this.Context.Dispose();
                 this.Context = null;
+                this.Transaction = null;
             }
         }
 
@@ -76,8 +87,7 @@ namespace Supido.Business.Context
         /// </summary>
         public void Commit()
         {
-            // TODO: end transaction
-            // IoC.Get<ISecurityManager>().AuditManager.EndTr...
+            IoC.Get<IAuditManager>().EndTransaction(this, this.Transaction);
             this.Context.SaveChanges();
         }
 

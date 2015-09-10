@@ -1,4 +1,5 @@
-﻿using Supido.Business.BO;
+﻿using Supido.Business.Audit;
+using Supido.Business.BO;
 using Supido.Business.Context;
 using Supido.Business.DTO;
 using Supido.Business.Meta;
@@ -24,6 +25,14 @@ namespace Supido.Business
         ISessionManager SessionManager { get; }
 
         /// <summary>
+        /// Gets the audit manager.
+        /// </summary>
+        /// <value>
+        /// The audit manager.
+        /// </value>
+        IAuditManager AuditManager { get; }
+
+        /// <summary>
         /// Gets the metamodel manager.
         /// </summary>
         /// <value>
@@ -47,8 +56,13 @@ namespace Supido.Business
         /// </value>
         Type ContextType { get; }
 
+        /// <summary>
+        /// Gets the scanner.
+        /// </summary>
+        /// <value>
+        /// The scanner.
+        /// </value>
         SecurityScanner Scanner { get; }
-
 
         #endregion
 

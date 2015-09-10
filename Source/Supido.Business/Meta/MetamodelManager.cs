@@ -1,4 +1,5 @@
 ﻿using Supido.Business.Attributes;
+using Supido.Business.Audit;
 using Supido.Core.Proxy;
 using System;
 using System.Collections.Generic;
@@ -187,6 +188,22 @@ namespace Supido.Business.Meta
             
             ObjectProxyFactory.CreateMap(entityType, dtoType, sourceNames, targetNames);
             return metamodelEntity;
+        }
+
+        /// <summary>
+        /// Sets the audit trail information for an entity.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="entId">The entity identifier.</param>
+        /// <param name="auditType">Type of the audit.</param>
+        public void SetAudit(string name, int entId, AuditType auditType)
+        {
+            IMetamodelEntity entity = this.GetEntityByName(name);
+            if (entity != null)
+            {
+                entity.EntId = entId;
+                entity.AuditType = auditType;
+            }
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Supido.Business.Audit;
+using System;
 using System.Collections.Generic;
 using Telerik.OpenAccess;
 
@@ -34,6 +35,22 @@ namespace Supido.Business.Meta
         /// The fields.
         /// </value>
         IList<IMetamodelField> Fields { get; }
+
+        /// <summary>
+        /// Gets the identifier of the entity.
+        /// </summary>
+        /// <value>
+        /// The entity identifier.
+        /// </value>
+        int EntId { get; set; }
+
+        /// <summary>
+        /// Gets the type of the audit.
+        /// </summary>
+        /// <value>
+        /// The type of the audit.
+        /// </value>
+        AuditType AuditType { get; set; }
 
         #endregion
 

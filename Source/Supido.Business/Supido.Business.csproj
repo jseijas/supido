@@ -61,6 +61,13 @@
     <Compile Include="Attributes\DtoAttribute.cs" />
     <Compile Include="Attributes\DtoField.cs" />
     <Compile Include="Attributes\FilterAttribute.cs" />
+    <Compile Include="Audit\AuditType.cs" />
+    <Compile Include="Audit\BaseAuditManager.cs" />
+    <Compile Include="Audit\EmptyAuditManager.cs" />
+    <Compile Include="Audit\IAuditManager.cs" />
+    <Compile Include="Audit\TransacActionInfo.cs" />
+    <Compile Include="Audit\TransacInfo.cs" />
+    <Compile Include="Audit\TransacActionType.cs" />
     <Compile Include="BO\BaseBO.cs" />
     <Compile Include="BO\BOEventArgs.cs" />
     <Compile Include="BO\BOManager.cs" />
@@ -94,6 +101,8 @@
     <Compile Include="Session\BaseSessionManager.cs" />
     <Compile Include="DTO\ISessionDto.cs" />
     <Compile Include="Session\ISessionManager.cs" />
+    <Compile Include="Session\MemorySessionDto.cs" />
+    <Compile Include="Session\MemorySessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,5 @@
-﻿using Supido.Core.Proxy;
+﻿using Supido.Business.Audit;
+using Supido.Core.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,6 +52,22 @@ namespace Supido.Business.Meta
         /// </value>
         public IList<IMetamodelField> Fields { get; private set; }
 
+        /// <summary>
+        /// Gets the identifier of the entity.
+        /// </summary>
+        /// <value>
+        /// The entity identifier.
+        /// </value>
+        public int EntId { get; set; }
+
+        /// <summary>
+        /// Gets the type of the audit.
+        /// </summary>
+        /// <value>
+        /// The type of the audit.
+        /// </value>
+        public AuditType AuditType { get; set; }
+
         #endregion
 
         #region - Constructors -
@@ -61,6 +78,8 @@ namespace Supido.Business.Meta
         /// <param name="entityType">Type of the entity.</param>
         public MetamodelEntity(Type entityType)
         {
+            this.EntId = 0;
+            this.AuditType = AuditType.None;
             this.EntityType = entityType;
             this.DtoTypes = new List<Type>();
             this.Fields = new List<IMetamodelField>();
@@ -93,6 +112,23 @@ namespace Supido.Business.Meta
         #region - Methods -
 
         /// <summary>
+        /// Gets a field by name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        protected IMetamodelField GetField(string name)
+        {
+            foreach (IMetamodelField field in this.Fields)
+            {
+                if (field.Name.ToLower().Equals(name.ToLower()))
+                {
+                    return field;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Adds a field information.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -101,8 +137,17 @@ namespace Supido.Business.Meta
         /// <returns></returns>
         public IMetamodelField AddField(string name, bool isPrimaryKey, bool avoidUpdate)
         {
-            IMetamodelField field = new MetamodelField(name, isPrimaryKey, avoidUpdate);
-            this.Fields.Add(field);
+            IMetamodelField field = this.GetField(name);
+            if (field == null)
+            {
+                field = new MetamodelField(name, isPrimaryKey, avoidUpdate);
+                this.Fields.Add(field);
+            }
+            else
+            {
+                field.IsPrimaryKey = isPrimaryKey;
+                field.AvoidUpdate = avoidUpdate;
+            }
             return field;
         }
 

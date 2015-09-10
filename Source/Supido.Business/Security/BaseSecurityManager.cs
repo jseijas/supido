@@ -1,4 +1,5 @@
-﻿using Supido.Business.BO;
+﻿using Supido.Business.Audit;
+using Supido.Business.BO;
 using Supido.Business.Context;
 using Supido.Business.DTO;
 using Supido.Business.Meta;
@@ -39,6 +40,14 @@ namespace Supido.Business.Security
         public ISessionManager SessionManager { get; private set; }
 
         /// <summary>
+        /// Gets the audit manager.
+        /// </summary>
+        /// <value>
+        /// The audit manager.
+        /// </value>
+        public IAuditManager AuditManager { get; private set; }
+
+        /// <summary>
         /// Gets the business object manager.
         /// </summary>
         /// <value>
@@ -70,6 +79,12 @@ namespace Supido.Business.Security
         /// </value>
         public Type ContextType { get; private set; }
 
+        /// <summary>
+        /// Gets the scanner.
+        /// </summary>
+        /// <value>
+        /// The scanner.
+        /// </value>
         public SecurityScanner Scanner { get; private set; }
 
         #endregion
@@ -87,8 +102,18 @@ namespace Supido.Business.Security
             this.ContextType = contextType;
             this.UserDtoType = userDtoType;
             ObjectProxyFactory.CreateMap(userDtoType, entityType);
-
             this.SessionManager = IoC.Get<ISessionManager>();
+            if (this.SessionManager == null)
+            {
+                this.SessionManager = new MemorySessionManager();
+                IoC.Register<ISessionManager>(this.SessionManager);
+            }
+            this.AuditManager = IoC.Get<IAuditManager>();
+            if (this.AuditManager == null)
+            {
+                this.AuditManager = new EmptyAuditManager();
+                IoC.Register<IAuditManager>(this.AuditManager);
+            }
             this.BOManager = new BOManager();
             this.MetamodelManager = new MetamodelManager();
             this.Configure(fileName);
@@ -212,6 +237,7 @@ namespace Supido.Business.Security
                 this.Scanner.Metatables = metatables;
                 this.Scanner.ScanNamespace(string.Empty);
             }
+            this.AuditManager.Configure();
         }
 
         /// <summary>
@@ -339,6 +365,12 @@ namespace Supido.Business.Security
             return context.NewBO<TDto>();
         }
 
+        /// <summary>
+        /// Gets a contextualized business object, dynamic way.
+        /// </summary>
+        /// <param name="dtoType">Type of the dto.</param>
+        /// <param name="sessionToken">The session token.</param>
+        /// <returns></returns>
         public object DynamicGetBO(Type dtoType, string sessionToken)
         {
             MethodInfo genericMethod;

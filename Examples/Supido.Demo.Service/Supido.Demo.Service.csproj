@@ -71,12 +71,14 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Supido.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Services\Security.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Security\AuditManager.cs" />
     <Compile Include="Services\ISecurity.cs" />
     <Compile Include="Services\Security.svc.cs">
       <DependentUpon>Security.svc</DependentUpon>

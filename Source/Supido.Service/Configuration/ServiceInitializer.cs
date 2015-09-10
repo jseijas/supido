@@ -190,18 +190,24 @@ namespace Supido.Service.Configuration
             if (securityNode != null)
             {
                 NodeAttributes securityAttributes = new NodeAttributes(securityNode);
-                Type sessionManagerType = TypesManager.ResolveType(securityAttributes.AsString("sessionManager"));
-                if (sessionManagerType != null)
+                if (!string.IsNullOrEmpty(securityAttributes.AsString("sessionManager")))
                 {
-                    ISessionManager sessionManager = (ISessionManager)Activator.CreateInstance(sessionManagerType);
-                    IoC.Register<ISessionManager>(sessionManager);
+                    Type sessionManagerType = TypesManager.ResolveType(securityAttributes.AsString("sessionManager"));
+                    if (sessionManagerType != null)
+                    {
+                        ISessionManager sessionManager = (ISessionManager)Activator.CreateInstance(sessionManagerType);
+                        IoC.Register<ISessionManager>(sessionManager);
+                    }
                 }
-                Type securityManagerType = TypesManager.ResolveType(securityAttributes.AsString("securityManager"));
-                if (securityManagerType != null)
+                if (!string.IsNullOrEmpty(securityAttributes.AsString("securityManager")))
                 {
-                    string mappersName = securityAttributes.AsString("mapper");
-                    securityManager = (ISecurityManager)Activator.CreateInstance(securityManagerType, mappersName);
-                    IoC.Register<ISecurityManager>(securityManager);
+                    Type securityManagerType = TypesManager.ResolveType(securityAttributes.AsString("securityManager"));
+                    if (securityManagerType != null)
+                    {
+                        string mappersName = securityAttributes.AsString("mapper");
+                        securityManager = (ISecurityManager)Activator.CreateInstance(securityManagerType, mappersName);
+                        IoC.Register<ISecurityManager>(securityManager);
+                    }
                 }
             }
         }

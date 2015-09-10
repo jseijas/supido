@@ -114,6 +114,30 @@ namespace Supido.Demo.Model
 			}
 		}
 		
+		public IQueryable<MetaEntity> MetaEntities 
+		{
+			get
+			{
+				return this.GetAll<MetaEntity>();
+			}
+		}
+		
+		public IQueryable<AuditTransacAction> AuditTransacActions 
+		{
+			get
+			{
+				return this.GetAll<AuditTransacAction>();
+			}
+		}
+		
+		public IQueryable<AuditTransac> AuditTransacs 
+		{
+			get
+			{
+				return this.GetAll<AuditTransac>();
+			}
+		}
+		
 		public static BackendConfiguration GetBackendConfiguration()
 		{
 			BackendConfiguration backend = new BackendConfiguration();
@@ -164,6 +188,18 @@ namespace Supido.Demo.Model
 			get;
 		}
 		IQueryable<Client> Clients
+		{
+			get;
+		}
+		IQueryable<MetaEntity> MetaEntities
+		{
+			get;
+		}
+		IQueryable<AuditTransacAction> AuditTransacActions
+		{
+			get;
+		}
+		IQueryable<AuditTransac> AuditTransacs
 		{
 			get;
 		}

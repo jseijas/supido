@@ -120,6 +120,15 @@ namespace Supido.Demo.Model
 			}
 		}
 		
+		private IList<AuditTransac> auditTransacs = new List<AuditTransac>();
+		public virtual IList<AuditTransac> AuditTransacs
+		{
+			get
+			{
+				return this.auditTransacs;
+			}
+		}
+		
 	}
 }
 #pragma warning restore 1591

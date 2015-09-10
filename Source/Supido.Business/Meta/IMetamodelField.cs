@@ -22,7 +22,7 @@ namespace Supido.Business.Meta
         /// <value>
         /// <c>true</c> if this instance is primary key; otherwise, <c>false</c>.
         /// </value>
-        bool IsPrimaryKey { get; }
+        bool IsPrimaryKey { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether [avoid update].
@@ -30,7 +30,7 @@ namespace Supido.Business.Meta
         /// <value>
         ///   <c>true</c> if [avoid update]; otherwise, <c>false</c>.
         /// </value>
-        bool AvoidUpdate { get; }
+        bool AvoidUpdate { get; set; }
 
         #endregion
     }

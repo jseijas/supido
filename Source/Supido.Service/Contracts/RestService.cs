@@ -86,7 +86,14 @@ namespace Supido.Service.Contracts
             }
             catch (Exception ex)
             {
-                return ex.Message.ToJsonMessage();
+                if (ex is TargetInvocationException)
+                {
+                    return ex.InnerException.Message.ToJsonMessage();
+                }
+                else
+                {
+                    return ex.Message.ToJsonMessage();
+                }
             }
         }
 
