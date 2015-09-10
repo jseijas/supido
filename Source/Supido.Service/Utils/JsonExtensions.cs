@@ -23,6 +23,13 @@ namespace Supido.Service.Utils
             return WebOperationContext.Current.CreateTextResponse(JsonConvert.SerializeObject(obj), "application/json; charset=utf-8", Encoding.UTF8);
         }
 
+        /// <summary>
+        /// Converts to json stream mesage
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="indented">if set to <c>true</c> [indented].</param>
+        /// <returns></returns>
         public static Message ToJsonMessage(this object obj, JsonSerializerSettings settings, bool indented)
         {
             Formatting formatting = indented ? Formatting.Indented : Formatting.None;
@@ -41,6 +48,12 @@ namespace Supido.Service.Utils
             return JsonConvert.DeserializeObject<T>(stream);
         }
 
+        /// <summary>
+        /// Deserializes from Json string.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
         public static object DeserializeJson(this string stream, Type type) 
         {
             return JsonConvert.DeserializeObject(stream, type);

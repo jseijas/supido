@@ -82,7 +82,7 @@ namespace Supido.Service.Configuration
         #region - Methods -
 
         /// <summary>
-        /// Adds the node.
+        /// Adds a new API node.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="dtoType">Type of the dto.</param>

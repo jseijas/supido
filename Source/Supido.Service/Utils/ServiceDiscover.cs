@@ -1,12 +1,9 @@
 ﻿using Supido.Service.Cors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 
 namespace Supido.Service.Utils

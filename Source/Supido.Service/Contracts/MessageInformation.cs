@@ -1,13 +1,13 @@
 ﻿using Supido.Core.Container;
 using Supido.Service.Configuration;
-using System.Collections.Generic;
-using System.ServiceModel.Channels;
 using Supido.Service.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using System.Runtime.Serialization.Json;
+using System.ServiceModel.Channels;
 using System.Text;
+using System.Xml;
 
 namespace Supido.Service.Contracts
 {
@@ -156,6 +156,10 @@ namespace Supido.Service.Contracts
 
         #region - Methods -
 
+        /// <summary>
+        /// Gets the absolute API path.
+        /// </summary>
+        /// <returns></returns>
         private string GetAbsoluteApiPath()
         {
             string s = this.AbsoluteUri;
@@ -173,6 +177,11 @@ namespace Supido.Service.Contracts
             return result;
         }
 
+        /// <summary>
+        /// Gets the message content format.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
         private WebContentFormat GetMessageContentFormat(Message message)
         {
             if (message.Properties.ContainsKey(WebBodyFormatMessageProperty.Name))
@@ -182,6 +191,11 @@ namespace Supido.Service.Contracts
             return WebContentFormat.Default;
         }
 
+        /// <summary>
+        /// Reads the raw body.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
         private string ReadRawBody(Message message)
         {
             XmlDictionaryReader bodyReader = message.GetReaderAtBodyContents();
@@ -189,6 +203,11 @@ namespace Supido.Service.Contracts
             return Encoding.UTF8.GetString(bodyReader.ReadContentAsBase64());
         }
 
+        /// <summary>
+        /// Converts the message to string.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
         private string MessageToString(Message message)
         {
             WebContentFormat messageFormat = this.GetMessageContentFormat(message);
@@ -296,11 +315,21 @@ namespace Supido.Service.Contracts
             }
         }
 
+        /// <summary>
+        /// Gets the body.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T GetBody<T>()
         {
             return this.Body.DeserializeJson<T>();
         }
 
+        /// <summary>
+        /// Gets the body.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
         public object GetBody(Type type)
         {
             return this.Body.DeserializeJson(type);

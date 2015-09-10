@@ -52,6 +52,5 @@ namespace Supido.Business.BO
         Type GetFilterType<TDto>();
 
         #endregion
-
     }
 }

@@ -36,6 +36,13 @@ namespace Supido.Business.Audit
         {
         }
 
+        /// <summary>
+        /// Indicates if the action must be trailed or not.
+        /// </summary>
+        /// <param name="actionType">Type of the action.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
         public override bool MustTrail(TransacActionType actionType, object source, object target)
         {
             return false;

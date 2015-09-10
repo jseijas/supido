@@ -89,6 +89,5 @@ namespace Supido.Business.Attributes
         }
 
         #endregion
-
     }
 }

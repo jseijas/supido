@@ -6,7 +6,7 @@ namespace Supido.Core.Utils
     /// <summary>
     /// Attribute "StringValue".
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
     public sealed class StringValueAttribute : Attribute
     {
         #region - Properties -

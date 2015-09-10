@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+
 namespace Supido.Service.Configuration
 {
     /// <summary>
@@ -69,6 +69,14 @@ namespace Supido.Service.Configuration
 
         #region - Methods -
 
+        /// <summary>
+        /// Adds a new API node.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="dtoType">Type of the dto.</param>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <param name="parentParameterName">Name of the parent parameter.</param>
+        /// <returns></returns>
         ApiNode AddNode(string path, Type dtoType, string parameterName, string parentParameterName);
 
         #endregion

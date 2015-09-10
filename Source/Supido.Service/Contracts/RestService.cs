@@ -30,6 +30,12 @@ namespace Supido.Service.Contracts
         {
         }
 
+        /// <summary>
+        /// Gets the session token.
+        /// </summary>
+        /// <param name="information">The information.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">A session token must be provided</exception>
         private string GetSessionToken(MessageInformation information)
         {
             if (!information.LowParameters.ContainsKey("sessiontoken"))
@@ -39,6 +45,14 @@ namespace Supido.Service.Contracts
             return information.LowParameters["sessiontoken"];
         }
 
+        /// <summary>
+        /// Converts to HATEOAS response.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="isPostPut">if set to <c>true</c> [is post put].</param>
+        /// <returns></returns>
         private object ConvertToHateoas(object source, IServiceConfiguration configuration, MessagePath path, bool isPostPut = false)
         {
             IList<HateoasLink> links = path.Links;
