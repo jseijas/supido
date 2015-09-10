@@ -1,9 +1,10 @@
-﻿using Supido.Business;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Supido.Business;
 using Supido.Business.Query;
 using Supido.Core.Container;
 using Supido.Core.Proxy;
 using Supido.Service.Configuration;
-using Supido.Service.Contracts;
 using Supido.Service.Utils;
 using System;
 using System.Collections;
@@ -38,6 +39,32 @@ namespace Supido.Service.Contracts
             return information.LowParameters["sessiontoken"];
         }
 
+        private object ConvertToHateoas(object source, IServiceConfiguration configuration, MessagePath path, bool isPostPut = false)
+        {
+            IList<HateoasLink> links = path.Links;
+            JsonSerializer serializer = IoC.Get<JsonSerializer>();
+            if ((path.HasKeyParameter) || (path.IsByParent) || isPostPut)
+            {
+                JObject jobject = JObject.FromObject(source, serializer);
+                JArray jarray = JArray.FromObject(links, serializer);
+                if (configuration.IsCamelCase)
+                {
+                    jobject.Add("links", jarray);
+                }
+                else
+                {
+                    jobject.Add("Links", jarray);
+                }
+                return jobject;
+            }
+            else
+            {
+                HateoasReponse response = new HateoasReponse();
+                response.Items = source;
+                response.Links = links;
+                return JObject.FromObject(response, serializer);
+            }
+        }
 
         /// <summary>
         /// Get Verb.
@@ -82,7 +109,13 @@ namespace Supido.Service.Contracts
                         response = bo.GetAll(path.QueryInfo);
                     }
                 }
-                return response.ToJsonMessage();
+                IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
+                JsonSerializerSettings settings = IoC.Get<JsonSerializerSettings>();
+                if (configuration.IsHateoas)
+                {
+                    response = this.ConvertToHateoas(response, configuration, path);
+                }
+                return response.ToJsonMessage(settings, configuration.Indented);
             }
             catch (Exception ex)
             {
@@ -111,6 +144,8 @@ namespace Supido.Service.Contracts
                 string sessionToken = this.GetSessionToken(information);
                 MessagePath path = new MessagePath(information);
                 ISecurityManager securityManager = IoC.Get<ISecurityManager>();
+                IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
+                JsonSerializerSettings settings = IoC.Get<JsonSerializerSettings>();
                 if (path.IsQuery)
                 {
                     dynamic bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
@@ -125,7 +160,11 @@ namespace Supido.Service.Contracts
                     {
                         response = bo.GetAll(info);
                     }
-                    return response.ToJsonMessage();
+                    if (configuration.IsHateoas)
+                    {
+                        response = this.ConvertToHateoas(response, configuration, path);
+                    }
+                    return response.ToJsonMessage(settings, configuration.Indented);
                 }
                 else 
                 { 
@@ -136,6 +175,9 @@ namespace Supido.Service.Contracts
                     dynamic bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
                     dynamic dto = information.GetBody(path.DtoType);
                     object response = bo.Insert(dto);
+                    if (configuration.IsHateoas)
+                    {
+                    }
                     return response.ToJsonMessage();
                 }
 
@@ -167,8 +209,13 @@ namespace Supido.Service.Contracts
                 dynamic bo = securityManager.DynamicGetBO(path.DtoType, sessionToken);
                 dynamic dto = information.GetBody(path.DtoType);
                 object response = bo.Update(dto);
-                return response.ToJsonMessage();
-
+                IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
+                JsonSerializerSettings settings = IoC.Get<JsonSerializerSettings>();
+                if (configuration.IsHateoas)
+                {
+                    response = this.ConvertToHateoas(response, configuration, path);
+                }
+                return response.ToJsonMessage(settings, configuration.Indented);
             }
             catch (Exception ex)
             {

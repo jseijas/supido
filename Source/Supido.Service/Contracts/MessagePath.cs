@@ -38,6 +38,8 @@ namespace Supido.Service.Contracts
 
         public string KeyParameterName { get; set; }
 
+        public HateoasList Links { get; set; }
+
         public MessagePath(MessageInformation information)
         {
             this.Configuration = IoC.Get<IServiceConfiguration>();
@@ -54,8 +56,42 @@ namespace Supido.Service.Contracts
             this.Build(forParent);
         }
 
+        private string BuildParentLink()
+        {
+            string result = this.Information.AbsoluteApiPath;
+            for (int i = 0; i < this.Information.PathTokens.Count-1; i++)
+            {
+                result = result + "/" + this.Information.PathTokens[i];
+            }
+            return result+"?sessionToken="+this.Information.LowParameters["sessiontoken"];
+        }
+
+        private string BuildSonLink(string path)
+        {
+            string result = this.Information.AbsoluteApiPath;
+            for (int i = 0; i < this.Information.PathTokens.Count - 1; i++)
+            {
+                result = result + "/" + this.Information.PathTokens[i];
+            }
+            return result + "/"+path+"?sessionToken=" + this.Information.LowParameters["sessiontoken"];
+        }
+
+        private void BuildLinks()
+        {
+            this.Links.Add("self", this.Information.AbsoluteUri);
+            this.Links.Add("parent", this.BuildParentLink());
+            if (this.HasKeyParameter)
+            {
+                foreach (KeyValuePair<string, ApiNode> kvp in this.CurrentNode.Sons)
+                {
+                    this.Links.Add(kvp.Value.Path, this.BuildSonLink(kvp.Value.Path));
+                }
+            }
+        }
+
         private void Build(bool forParent)
         {
+            this.Links = new HateoasList();
             if (this.Information.PathTokens[this.Information.PathTokens.Count-1].ToLower().Equals("query")) 
             {
                 this.IsQuery = true;
@@ -120,6 +156,7 @@ namespace Supido.Service.Contracts
             this.KeyParameterName = node.ParameterName;
             this.EntityType = entityType;
             this.DtoType = node.DtoType;
+            this.BuildLinks();
             max = this.HasKeyParameter ? paths.Count-1 : paths.Count;
             for (int i = 0; i < max; i++)
             {

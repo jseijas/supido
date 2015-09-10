@@ -1,4 +1,6 @@
-﻿using Supido.Business;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Supido.Business;
 using Supido.Business.Meta;
 using Supido.Business.Session;
 using Supido.Core.Container;
@@ -226,6 +228,31 @@ namespace Supido.Service.Configuration
                 ServiceConfiguration configuration = new ServiceConfiguration();
                 configuration.ApiPath = serviceAttributes.AsString("apiPath");
                 configuration.IsCors = serviceAttributes.AsBool("cors");
+                configuration.IsHateoas = serviceAttributes.AsBool("hateoas");
+                configuration.IsCamelCase = serviceAttributes.AsBool("camel", true);
+                configuration.IncludeNulls = serviceAttributes.AsBool("includeNulls", false);
+                configuration.Indented = serviceAttributes.AsBool("indented", true);
+
+                JsonSerializer serializer = new JsonSerializer();
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                if (configuration.IsCamelCase)
+                {
+                    serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                }
+                if (configuration.IncludeNulls)
+                {
+                    serializer.NullValueHandling = NullValueHandling.Include;
+                    settings.NullValueHandling = NullValueHandling.Include;
+                }
+                else
+                {
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    settings.NullValueHandling = NullValueHandling.Ignore;
+                }
+                IoC.Register(serializer);
+                IoC.Register(settings);
+
                 foreach (XmlNode apiNode in serviceNode.SelectNodes("api"))
                 {
                     ConfigureApi(apiNode, configuration);

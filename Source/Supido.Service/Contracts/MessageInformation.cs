@@ -31,6 +31,14 @@ namespace Supido.Service.Contracts
         public string AbsoluteUri { get; set; }
 
         /// <summary>
+        /// Gets or sets the absolute API path.
+        /// </summary>
+        /// <value>
+        /// The absolute API path.
+        /// </value>
+        public string AbsoluteApiPath { get; set; }
+
+        /// <summary>
         /// Gets or sets the host.
         /// </summary>
         /// <value>
@@ -144,12 +152,30 @@ namespace Supido.Service.Contracts
 
         #region - Methods -
 
+        private string GetAbsoluteApiPath()
+        {
+            string s = this.AbsoluteUri;
+            int i = s.IndexOf("//");
+            string result = s.Substring(0, i+2);
+            s = s.Remove(0, i + 2);
+            i = s.IndexOf("/");
+            result = result + s.Substring(0, i + 1);
+            s = s.Remove(0, i + 1);
+            IServiceConfiguration configuration = IoC.Get<IServiceConfiguration>();
+            if (!string.IsNullOrEmpty(configuration.ApiPath))
+            {
+                result = result + configuration.ApiPath;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Fills this instance from the message.
         /// </summary>
         private void Fill()
         {
             this.AbsoluteUri = this.Message.Headers.To.AbsoluteUri;
+            this.AbsoluteApiPath = this.GetAbsoluteApiPath();            
             this.Host = this.Message.Headers.To.Host;
             this.Port = this.Message.Headers.To.Port;
             this.Path = this.Message.Headers.To.AbsolutePath;
