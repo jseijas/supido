@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Supido.Business;
+using Supido.Business.Audit;
 using Supido.Business.Meta;
 using Supido.Business.Session;
 using Supido.Core.Container;
@@ -201,14 +202,24 @@ namespace Supido.Service.Configuration
                         IoC.Register<ISessionManager>(sessionManager);
                     }
                 }
+                if (!string.IsNullOrEmpty(securityAttributes.AsString("auditManager")))
+                {
+                    Type auditManagerType = TypesManager.ResolveType(securityAttributes.AsString("auditManager"));
+                    if (auditManagerType != null)
+                    {
+                        IAuditManager auditManager = (IAuditManager)Activator.CreateInstance(auditManagerType);
+                        IoC.Register<IAuditManager>(auditManager);
+                    }
+                }
                 if (!string.IsNullOrEmpty(securityAttributes.AsString("securityManager")))
                 {
                     Type securityManagerType = TypesManager.ResolveType(securityAttributes.AsString("securityManager"));
                     if (securityManagerType != null)
                     {
-                        string mappersName = securityAttributes.AsString("mapper");
-                        securityManager = (ISecurityManager)Activator.CreateInstance(securityManagerType, mappersName);
+                        securityManager = (ISecurityManager)Activator.CreateInstance(securityManagerType);
                         IoC.Register<ISecurityManager>(securityManager);
+                        string mappersName = securityAttributes.AsString("mapper");
+                        securityManager.Configure(mappersName);
                     }
                 }
             }
@@ -258,6 +269,7 @@ namespace Supido.Service.Configuration
                     ConfigureApi(apiNode, configuration);
                 }
                 IoC.Register<IServiceConfiguration>(configuration);
+                IoC.Get<IAuditManager>().Configure();
             }
         }
 

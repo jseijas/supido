@@ -97,7 +97,7 @@ namespace Supido.Business.Security
         /// <param name="contextType">Type of the context.</param>
         /// <param name="userDtoType">Type of the user dto.</param>
         /// <param name="fileName">Name of the file.</param>
-        public BaseSecurityManager(Type contextType, Type userDtoType, Type entityType, string fileName)
+        public BaseSecurityManager(Type contextType, Type userDtoType, Type entityType)
         {
             this.ContextType = contextType;
             this.UserDtoType = userDtoType;
@@ -116,7 +116,6 @@ namespace Supido.Business.Security
             }
             this.BOManager = new BOManager();
             this.MetamodelManager = new MetamodelManager();
-            this.Configure(fileName);
         }
 
         #endregion
@@ -201,7 +200,7 @@ namespace Supido.Business.Security
         /// Configures the Security Manager from a file.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        protected virtual void Configure(string fileName)
+        public virtual void Configure(string fileName)
         {
             MetadataContainer metadata = this.GetOpenAccessMetadata();
             Dictionary<string, MetaPersistentType> metatables = this.GetMetaTables(metadata);
@@ -237,7 +236,6 @@ namespace Supido.Business.Security
                 this.Scanner.Metatables = metatables;
                 this.Scanner.ScanNamespace(string.Empty);
             }
-            this.AuditManager.Configure();
         }
 
         /// <summary>

@@ -43,6 +43,21 @@ namespace Supido.Demo.Service.Security
             }
         }
 
+        public override bool MustTrail(TransacActionType actionType, object source, object target)
+        {
+            object referenceObject = null;
+            if (actionType == TransacActionType.Insert)
+            {
+                referenceObject = target;
+            }
+            else
+            {
+                referenceObject = source;
+            }
+            IMetamodelEntity metamodelEntity = IoC.Get<ISecurityManager>().MetamodelManager.GetEntity(referenceObject.GetType());
+            return ((metamodelEntity != null) && (metamodelEntity.AuditType != AuditType.None));
+        }
+
         protected override void CommitTransac(IUserContext userContext, TransacInfo transac)
         {
             if (transac.Actions.Count > 0)
@@ -59,24 +74,28 @@ namespace Supido.Demo.Service.Security
 
         protected override void CommitAction(IUserContext userContext, TransacInfo transac, int index, TransacActionInfo action)
         {
-            AuditTransacAction actionEntity = new AuditTransacAction();
-            actionEntity.AuditTransacId = Convert.ToInt32(transac.TransacId);
-            actionEntity.AuditTransacActionIx = index;
-            Type entityType = null;
+            object referenceObject = null;
             if (action.Type == TransacActionType.Insert)
             {
-                entityType = action.TargetInstance.GetType();
-            }
-            else if (action.Type == TransacActionType.Delete)
-            {
-                entityType = action.SourceInstance.GetType();
+                referenceObject = action.TargetInstance;
             }
             else
             {
-                entityType = action.SourceInstance.GetType();
+                referenceObject = action.SourceInstance;
             }
-            IMetamodelEntity metamodelEntity = IoC.Get<ISecurityManager>().MetamodelManager.GetEntity(entityType);
-
+            IMetamodelEntity metamodelEntity = IoC.Get<ISecurityManager>().MetamodelManager.GetEntity(referenceObject.GetType());
+            if (metamodelEntity != null)
+            {
+                if (metamodelEntity.AuditType == AuditType.Simple)
+                {
+                    AuditTransacAction actionEntity = new AuditTransacAction();
+                    actionEntity.AuditTransacId = Convert.ToInt32(transac.TransacId);
+                    actionEntity.AuditTransacActionIx = index + 1;
+                    actionEntity.EntityId = metamodelEntity.EntId;
+                    actionEntity.PrimaryKey = metamodelEntity.GetStringKey(referenceObject);
+                    userContext.Context.Add(actionEntity);
+                }
+            }
         }
     }
 }

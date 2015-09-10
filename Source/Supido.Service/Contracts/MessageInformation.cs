@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.ServiceModel.Channels;
 using Supido.Service.Utils;
 using System;
+using System.IO;
+using System.Xml;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace Supido.Service.Contracts
 {
@@ -169,6 +173,45 @@ namespace Supido.Service.Contracts
             return result;
         }
 
+        private WebContentFormat GetMessageContentFormat(Message message)
+        {
+            if (message.Properties.ContainsKey(WebBodyFormatMessageProperty.Name))
+            {
+                return (message.Properties[WebBodyFormatMessageProperty.Name] as WebBodyFormatMessageProperty).Format;
+            }
+            return WebContentFormat.Default;
+        }
+
+        private string ReadRawBody(Message message)
+        {
+            XmlDictionaryReader bodyReader = message.GetReaderAtBodyContents();
+            bodyReader.ReadStartElement("Binary");
+            return Encoding.UTF8.GetString(bodyReader.ReadContentAsBase64());
+        }
+
+        private string MessageToString(Message message)
+        {
+            WebContentFormat messageFormat = this.GetMessageContentFormat(message);
+            MemoryStream ms = new MemoryStream();
+            XmlDictionaryWriter writer = null;
+            switch (messageFormat)
+            {
+                case WebContentFormat.Default:
+                case WebContentFormat.Xml:
+                    writer = XmlDictionaryWriter.CreateTextWriter(ms);
+                    break;
+                case WebContentFormat.Json:
+                    writer = JsonReaderWriterFactory.CreateJsonWriter(ms);
+                    break;
+                case WebContentFormat.Raw:
+                    return this.ReadRawBody(message);
+            }
+            message.WriteMessage(writer);
+            writer.Flush();
+            return Encoding.UTF8.GetString(ms.ToArray());
+        } 
+  
+
         /// <summary>
         /// Fills this instance from the message.
         /// </summary>
@@ -248,11 +291,8 @@ namespace Supido.Service.Contracts
             }
             else
             {
-                using (var reader = this.Message.GetReaderAtBodyContents())
-                {
-                    reader.Read();
-                    this.Body = System.Text.Encoding.UTF8.GetString(reader.ReadContentAsBase64());
-                }
+                this.Body = this.MessageToString(this.Message);
+                this.Body = this.Body;
             }
         }
 

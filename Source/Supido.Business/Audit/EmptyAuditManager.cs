@@ -36,6 +36,12 @@ namespace Supido.Business.Audit
         {
         }
 
+        public override bool MustTrail(TransacActionType actionType, object source, object target)
+        {
+            return false;
+        }
+
+
         #endregion
     }
 }

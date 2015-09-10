@@ -135,7 +135,8 @@ namespace Supido.Service.Contracts
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns></returns>
-        [WebInvoke(Method = "POST", UriTemplate="*", RequestFormat = WebMessageFormat.Json, ResponseFormat= WebMessageFormat.Json)]
+        //[WebInvoke(Method = "POST", UriTemplate="*", RequestFormat = WebMessageFormat.Json, ResponseFormat= WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "*", ResponseFormat = WebMessageFormat.Json)]
         public Message Post(Message message)
         {
             MessageInformation information = new MessageInformation(message);
@@ -177,6 +178,7 @@ namespace Supido.Service.Contracts
                     object response = bo.Insert(dto);
                     if (configuration.IsHateoas)
                     {
+                        response = ConvertToHateoas(response, configuration, path, true);
                     }
                     return response.ToJsonMessage();
                 }

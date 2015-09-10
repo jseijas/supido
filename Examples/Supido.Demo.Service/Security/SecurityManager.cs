@@ -17,8 +17,8 @@ namespace Supido.Demo.Service.Security
         /// Initializes a new instance of the <see cref="SecurityManager"/> class.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public SecurityManager(string fileName)
-            : base(typeof(EntitiesModel), typeof(UserDto), typeof(User), fileName)
+        public SecurityManager()
+            : base(typeof(EntitiesModel), typeof(UserDto), typeof(User))
         {        
         }
 

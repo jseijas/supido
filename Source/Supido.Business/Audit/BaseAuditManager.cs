@@ -18,6 +18,15 @@ namespace Supido.Business.Audit
         public abstract void Configure();
 
         /// <summary>
+        /// Indicates if the action must be trailed or not.
+        /// </summary>
+        /// <param name="actionType">Type of the action.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        public abstract bool MustTrail(TransacActionType actionType, object source, object target);
+
+        /// <summary>
         /// Commits the transaction information.
         /// </summary>
         /// <param name="userContext">The user context.</param>

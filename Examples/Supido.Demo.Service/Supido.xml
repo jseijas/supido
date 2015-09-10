@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <security sessionManager="Supido.Demo.Service.Security.SessionManager" securityManager="Supido.Demo.Service.Security.SecurityManager"></security>
+  <security sessionManager="Supido.Demo.Service.Security.SessionManager" securityManager="Supido.Demo.Service.Security.SecurityManager" auditManager="Supido.Demo.Service.Security.AuditManager"></security>
   <service cors="true" apiPath="api" hateoas="true" camel="true" includeNulls="false" indented="true">
     <api path="client">
       <api path="project">

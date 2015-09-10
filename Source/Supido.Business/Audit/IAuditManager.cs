@@ -28,6 +28,15 @@ namespace Supido.Business.Audit
         /// <param name="transac">The transac.</param>
         void EndTransaction(IUserContext userContext, TransacInfo transac);
 
+        /// <summary>
+        /// Indicates if the action must be trailed or not.
+        /// </summary>
+        /// <param name="actionType">Type of the action.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        bool MustTrail(TransacActionType actionType, object source, object target);
+
         #endregion
     }
 }

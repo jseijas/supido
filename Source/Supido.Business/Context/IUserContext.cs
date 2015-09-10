@@ -1,4 +1,5 @@
-﻿using Supido.Business.BO;
+﻿using Supido.Business.Audit;
+using Supido.Business.BO;
 using Supido.Business.DTO;
 using Telerik.OpenAccess;
 
@@ -58,6 +59,14 @@ namespace Supido.Business.Context
         /// <param name="automanaged">if set to <c>true</c> [automanaged].</param>
         /// <returns></returns>
         ContextBO<TDto> NewBO<TDto>(bool automanaged = true);
+
+        /// <summary>
+        /// Trails the specified action type.
+        /// </summary>
+        /// <param name="actionType">Type of the action.</param>
+        /// <param name="sourceObject">The source object.</param>
+        /// <param name="targetObject">The target object.</param>
+        void Trail(TransacActionType actionType, object sourceObject, object targetObject);
 
         #endregion
     }

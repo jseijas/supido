@@ -75,7 +75,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Services\Security.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Security\AuditManager.cs" />

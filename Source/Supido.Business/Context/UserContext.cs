@@ -1,6 +1,7 @@
 ﻿using Supido.Business.Audit;
 using Supido.Business.BO;
 using Supido.Business.DTO;
+using Supido.Business.Meta;
 using Supido.Core.Container;
 using System;
 using Telerik.OpenAccess;
@@ -112,6 +113,18 @@ namespace Supido.Business.Context
             Type boType = boManager.GetBOType<TDto>();
             Type entityType = IoC.Get<ISecurityManager>().MetamodelManager.GetEntityByDto<TDto>().EntityType;
             return (ContextBO<TDto>)Activator.CreateInstance(boType, entityType, this, filterType, automanaged);
+        }
+
+        public void Trail(TransacActionType actionType, object sourceObject, object targetObject)
+        {
+            if (IoC.Get<IAuditManager>().MustTrail(actionType, sourceObject, targetObject)) 
+            {
+                TransacActionInfo action = new TransacActionInfo();
+                action.Type = actionType;
+                action.SourceInstance = sourceObject;
+                action.TargetInstance = targetObject;
+                this.Transaction.Actions.Add(action);
+            }
         }
 
         #endregion

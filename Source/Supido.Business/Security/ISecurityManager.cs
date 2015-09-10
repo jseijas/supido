@@ -68,6 +68,8 @@ namespace Supido.Business
 
         #region - Methods -
 
+        void Configure(string fileName);
+
         /// <summary>
         /// Logins a user into the system.
         /// </summary>
