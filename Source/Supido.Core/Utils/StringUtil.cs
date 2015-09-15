@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace Supido.Core.Utils
 {
@@ -40,7 +41,14 @@ namespace Supido.Core.Utils
                 char c = name[i];
                 if (char.IsLetter(c))
                 {
-                    builder.Append(capitalize ? char.ToUpper(c) : c);
+                    if (char.IsUpper(c))
+                    {
+                        builder.Append(c);
+                    }
+                    else
+                    {
+                        builder.Append(capitalize ? char.ToUpper(c) : c);
+                    }
                     capitalize = false;
                 }
                 else
@@ -134,5 +142,87 @@ namespace Supido.Core.Utils
             }
             return result;
         }
+
+        /// <summary>
+        /// Splits string into lines.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="removeEmpty">if set to <c>true</c> [remove empty].</param>
+        /// <returns></returns>
+        public static string[] SplitLines(string s, bool removeEmpty = true)
+        {
+            StringSplitOptions options = removeEmpty ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None;
+            return s.Split(new[] { '\r', '\n' }, options);
+        }
+
+        /// <summary>
+        /// Pop from a string until find separator.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="separator">The separator.</param>
+        /// <param name="trimmed">if set to <c>true</c> [trimmed].</param>
+        /// <returns></returns>
+        public static string PopUntil(ref string s, string separator, bool trimmed = true)
+        {
+            int i = s.IndexOf(separator);
+            string result = string.Empty;
+            if (i == -1)
+            {
+                result = s;
+                s = string.Empty;
+            }
+            else
+            {
+                result = s.Substring(0, i);
+                s = s.Remove(0, i + separator.Length);
+            }
+            if (trimmed)
+            {
+                result = result.Trim();
+                s = s.Trim();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Removes first and last characters from string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="trimmed">if set to <c>true</c> [trimmed].</param>
+        /// <returns></returns>
+        public static string RemoveFirstAndLast(string s, bool trimmed = true)
+        {
+            string result = s.Remove(0, 1);
+            result = result.Remove(result.Length - 1, 1);
+            if (trimmed)
+            {
+                result = result.Trim();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Makes uppercase the first character of a string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
+        public static string FirstUpper(string s)
+        {
+            return char.ToUpper(s[0]) + s.Substring(1);
+        }
+
+        /// <summary>
+        /// Unquotes the specified string.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns></returns>
+        public static string Unquote(string s)
+        {
+            int n = s.Length;
+            return (n > 2 && s.First() == '"' && s[n - 1] == '"')
+                ? s.Substring(1, n - 2)
+                : s;
+        }
+
     }
 }

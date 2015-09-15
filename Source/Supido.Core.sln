@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supido.Core", "Supido.Core\Supido.Core.csproj", "{48569113-1263-42EB-BEBF-E5E295E5A89C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Core", "05 - Core", "{A9814E1B-FA68-4DB7-B67E-F2977A7B1329}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - AoP", "01 - AoP", "{D645A1A3-A67C-488C-9163-84564AEA82BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supido.Core.AoP", "Supido.Core.AoP\Supido.Core.AoP.csproj", "{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - ScriptRunner", "02 - ScriptRunner", "{1932E431-EF5B-4AD3-8B8C-85B3970180EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supido.ScriptRunner", "Supido.ScriptRunner\Supido.ScriptRunner.csproj", "{647CD88A-E851-436C-A92D-F9D2A57A2E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Business", "03 - Business", "{9C911791-98F9-45CC-813D-7B73EE821AB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supido.Business", "Supido.Business\Supido.Business.csproj", "{7563A878-D123-473E-9800-9FB70A30DFC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48569113-1263-42EB-BEBF-E5E295E5A89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48569113-1263-42EB-BEBF-E5E295E5A89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48569113-1263-42EB-BEBF-E5E295E5A89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48569113-1263-42EB-BEBF-E5E295E5A89C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647CD88A-E851-436C-A92D-F9D2A57A2E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647CD88A-E851-436C-A92D-F9D2A57A2E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647CD88A-E851-436C-A92D-F9D2A57A2E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647CD88A-E851-436C-A92D-F9D2A57A2E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7563A878-D123-473E-9800-9FB70A30DFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7563A878-D123-473E-9800-9FB70A30DFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7563A878-D123-473E-9800-9FB70A30DFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7563A878-D123-473E-9800-9FB70A30DFC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48569113-1263-42EB-BEBF-E5E295E5A89C} = {A9814E1B-FA68-4DB7-B67E-F2977A7B1329}
+		{D645A1A3-A67C-488C-9163-84564AEA82BD} = {A9814E1B-FA68-4DB7-B67E-F2977A7B1329}
+		{1932E431-EF5B-4AD3-8B8C-85B3970180EA} = {A9814E1B-FA68-4DB7-B67E-F2977A7B1329}
+		{9B9EF6B3-E0B4-43C0-96AF-DC268FF47E95} = {D645A1A3-A67C-488C-9163-84564AEA82BD}
+		{647CD88A-E851-436C-A92D-F9D2A57A2E51} = {1932E431-EF5B-4AD3-8B8C-85B3970180EA}
+		{7563A878-D123-473E-9800-9FB70A30DFC1} = {9C911791-98F9-45CC-813D-7B73EE821AB9}
+	EndGlobalSection
+EndGlobal
